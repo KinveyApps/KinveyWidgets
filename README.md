@@ -1,6 +1,6 @@
 Kinvey Widgets
 =====
-This repository contains reusable widgets for Kinvey's sample iOS projects. 
+This repository contains handy reusable widgets for Kinvey's sample iOS projects. 
 
 ## Organization
 This project is broken out into subfolders containing similiar views. These will be generic widgets that can be used by any kind of iOS project. Any code that specifically uses KinveyKit for talking to [Kinvey's Backend-as-a-Service](http://www.kinvey.com), will be in a `KinveyKit` subfolder. 
