@@ -46,8 +46,10 @@ These example sign-ins view that supports sign-in with a username and password, 
 This has been built to be generic for any sign-in service, but comes with an implementation for Kinvey, as well.
 
 ![](https://raw.github.com/KinveyApps/KinveyWidgets/master/doc/assets/KWSignInViewController_screenshot.png)
+
 ![](https://raw.github.com/KinveyApps/KinveyWidgets/master/doc/assets/KWSignInViewController_landscape_screenshot.png)
-![=640px](https://raw.github.com/KinveyApps/KinveyWidgets/master/doc/assets/KWSignInViewController_ipad_screenshot)
+
+![=640px](https://raw.github.com/KinveyApps/KinveyWidgets/master/doc/assets/KWSignInViewController_ipad_screenshot.png)
 
 ## Contact
 Website: [www.kinvey.com](http://www.kinvey.com)

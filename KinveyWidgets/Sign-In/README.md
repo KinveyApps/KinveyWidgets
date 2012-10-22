@@ -5,8 +5,10 @@ This is example sign-in view that supports sign-in with a username and password,
 This has been built to be generic for any sign-in service, but comes with an implementation for [Kinvey's Backend-as-a-Service](http://www.kinvey.com).
 
 ![](https://raw.github.com/KinveyApps/KinveyWidgets/master/doc/assets/KWSignInViewController_screenshot.png)
+
 ![](https://raw.github.com/KinveyApps/KinveyWidgets/master/doc/assets/KWSignInViewController_landscape_screenshot.png)
-![=640px](https://raw.github.com/KinveyApps/KinveyWidgets/master/doc/assets/KWSignInViewController_ipad_screenshot)
+
+![=640px](https://raw.github.com/KinveyApps/KinveyWidgets/master/doc/assets/KWSignInViewController_ipad_screenshot.png)
 
 
 ## How to Use
