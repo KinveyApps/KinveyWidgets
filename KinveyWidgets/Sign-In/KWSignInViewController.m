@@ -546,7 +546,8 @@ NSString* const KWSignInTwitter = @"twitter";
 
 - (void) signInWithUsername:(NSString*)username password:(NSString*)password
 {
-    [_signInDelegate doSignIn:self username:username password:password];
+    //case username to lowercase - Kinvey is case sensitive on emails, but your service may or may not be
+    [_signInDelegate doSignIn:self username:[username lowercaseString] password:password];
 }
 
 - (void) socialSignIn:(UIControl*)sender

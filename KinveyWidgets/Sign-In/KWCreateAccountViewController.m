@@ -246,7 +246,7 @@
             _surname = text;
             break;
         case 110:
-            _email = text;
+            _email = [text lowercaseString]; //convert to lower case for normalized matching
             break;
         case 120:
             _password = text;
