@@ -99,6 +99,11 @@
 */
 - (NSString *)kinveyObjectId;
 
+/** Sets the `KCSEntityKeyId` value for this entity
+ @param objId the string `_id` for the entity
+ */
+- (void) setKinveyObjectId:(NSString*) objId;
+
 /*! Returns the value for a given property in this entity
 *
 * @param property The property that we're interested in.

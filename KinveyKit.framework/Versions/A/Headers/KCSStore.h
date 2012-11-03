@@ -12,6 +12,7 @@
 #import <Foundation/Foundation.h>
 #import "KCSBlockDefs.h"
 #import "KCSQuery.h"
+#import "KinveyHeaderInfo.h"
 
 // Forward decl
 @class KCSAuthHandler;

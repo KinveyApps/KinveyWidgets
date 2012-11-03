@@ -115,6 +115,16 @@ implementing these methods.
  */
 + (NSDictionary*) kinveyPropertyToCollectionMapping;
 
+/** Provide a list of backend reference objects to save when this object is saved through a `KCSLinkedAppdataStore`. 
+ 
+ Properties thus listed will have their objects saved to their collections when this object is saved. Any reference properties (specified in `kinveyPropertyToCollectionMapping`) not listed in return array will still have the references created and saved; only the save will not be recusive to the reference object. Queries/Loads will still create the reference objects. 
+ 
+ @return an array of backend property names to save
+ @see kinveyPropertyToCollectionMapping
+ @since 1.10.3
+ */
+- (NSArray*) referenceKinveyPropertiesOfObjectsToSave;
+
 
 #define KCS_USE_DESIGNATED_INITIALIZER_MAPPING_KEY @"KCS_DESIGNATED_INITIALIZER_MAPPING_KEY"
 #define KCS_USE_DICTIONARY_KEY @"KCS_DICTIONARY_MAPPER_KEY"

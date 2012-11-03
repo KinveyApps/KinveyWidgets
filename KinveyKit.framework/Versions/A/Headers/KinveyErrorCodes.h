@@ -24,7 +24,7 @@
 #define KCSErrorDomain @"KCSErrorDomain"
 
 // Error Codes
-enum {
+typedef enum KCSErrorCodes : NSInteger {
     // Error Codes Based on HTTP
     KCSBadRequestError = 400,
     KCSDeniedError = 401,
@@ -66,12 +66,12 @@ enum {
     KCSInvalidArgumentError = 60012,
     KCSInvalidJSONFormatError = 60013,
     
+    KCSReferenceNoIdSetError = 60101,
     
     // For testing only, no user should ever see this!
     KCSTestingError = 65535
     
-};
-
+} KCSErrorCodes;
 
 
 #endif

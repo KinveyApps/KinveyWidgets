@@ -43,10 +43,7 @@ typedef enum KCSCachePolicy {
  
  For more information about offline saving, see KCSOfflineSaveStore and our iOS developer's user guide at docs.kinvey.com. 
  */
-@interface KCSCachedStore : KCSAppdataStore <KCSOfflineSaveStore> {
-    NSCache* _cache;
-}
-
+@interface KCSCachedStore : KCSAppdataStore <KCSOfflineSaveStore> 
 /** @name Cache Policy */
 
 /** The cache policy used, by default, for this store */

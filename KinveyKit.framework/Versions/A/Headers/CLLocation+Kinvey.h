@@ -9,6 +9,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 /** Helper Category to allow for persisting CLLocation objects to the Kinvey backend.
+ @since 1.8
  */
 @interface CLLocation (Kinvey)
 /** Converts this CLLocation to a form persistable to Kinvey.
