@@ -90,12 +90,6 @@
         //#endif
         
         [self.window makeKeyAndVisible];
-        
-        int64_t delayInSeconds = 2.0;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [signInViewController showEmailVerificationScreen:@"tom"];
-        });
     });
 }
 
@@ -141,14 +135,17 @@
 
 #pragma mark - State Restoration
 
-- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
-{
-    return YES;
-}
+// Uncomment to support State Restoration
+//
+//- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
+//{
+//    return YES;
+//}
+//
+//- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
+//{
+//    return YES;
+//}
 
-- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
-{
-    return YES;
-}
 
 @end

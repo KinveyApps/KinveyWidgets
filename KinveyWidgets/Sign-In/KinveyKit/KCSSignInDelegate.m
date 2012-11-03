@@ -85,7 +85,7 @@
             //if we were able to successfully get the twitter credentials, use them to log in to kinvey
             [KCSUser loginWithWithSocialIdentity:KCSSocialIDTwitter accessDictionary:accessDictOrNil withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {
                 [signInController actionComplete];
-                if (errorOrNil != nil) {
+                if (errorOrNil == nil) {
                     [_signInResponder userSucessfullySignedIn:user];
                 } else {
                     [self twitterLoginFailed:errorOrNil];
