@@ -41,11 +41,13 @@
 
 NSString* const KWSignInFacebook = @"facebook";
 NSString* const KWSignInTwitter = @"twitter";
+NSString* const KWSignInLinkedIn = @"linkedIn";
 
 
 @interface KWSignInViewController () <UITextFieldDelegate> {
     KWSocialButton* _twitterButton;
     KWSocialButton* _facebookButton;
+    KWSocialButton* _linkedInButton;
     UIView* _titleView;
 }
 @property (nonatomic, strong) UIImageView* logoView;
@@ -292,10 +294,20 @@ NSString* const KWSignInTwitter = @"twitter";
             [_facebookButton removeFromSuperview], _facebookButton = nil;
         }
         
+        if ([_socialLogins containsObject:KWSignInLinkedIn]) {
+            _linkedInButton = [KWSocialButton linkedInButton];
+            [_linkedInButton setTitle:NSLocalizedString(@"Sign in with LinkedIn", @"LinkedIn button") forState:UIControlStateNormal];
+            [_linkedInButton addTarget:self action:@selector(socialSignIn:) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:_linkedInButton];
+        } else {
+            [_linkedInButton removeFromSuperview], _linkedInButton = nil;
+        }
+        
     } else {
         [_lineView removeFromSuperview], _lineView = nil;
         [_twitterButton removeFromSuperview], _twitterButton = nil;
         [_facebookButton removeFromSuperview], _facebookButton = nil;
+        [_linkedInButton removeFromSuperview], _linkedInButton = nil;
     }
     [self.view setNeedsLayout];
 }
@@ -356,6 +368,12 @@ NSString* const KWSignInTwitter = @"twitter";
             loginFrame.origin.x = CGRectGetMaxX(loginFrame) + kLandscapeLoginSocialInterspacing;
             _facebookButton.frame = loginFrame;
             _facebookButton.buttonMode = KWSocialButtonModeIconOnly;
+        }
+        
+        if ([_socialLogins containsObject:KWSignInLinkedIn]) {
+            loginFrame.origin.x = CGRectGetMaxX(loginFrame) + kLandscapeLoginSocialInterspacing;
+            _linkedInButton.frame = loginFrame;
+            _linkedInButton.buttonMode = KWSocialButtonModeIconOnly;
         }
     }
     
@@ -424,6 +442,12 @@ NSString* const KWSignInTwitter = @"twitter";
             _facebookButton.frame = userFrame;
             _facebookButton.buttonMode = KWSocialButtonModeDefault;
         }
+        
+        if ([_socialLogins containsObject:KWSignInLinkedIn]) {
+            userFrame.origin.y = CGRectGetMaxY(userFrame) +  kWidgetMargin;
+            _linkedInButton.frame = userFrame;
+            _linkedInButton.buttonMode = KWSocialButtonModeDefault;
+        }
     }
     
     if (_showsCreateAccountButton) {
@@ -481,6 +505,12 @@ NSString* const KWSignInTwitter = @"twitter";
         
         if ([_socialLogins containsObject:KWSignInFacebook]) {
             _facebookButton.frame = socialFrame;
+            socialFrame.origin.y = CGRectGetMaxY(socialFrame) + kWidgetMargin;
+        }
+
+        if ([_socialLogins containsObject:KWSignInLinkedIn]) {
+            _linkedInButton.frame = socialFrame;
+            socialFrame.origin.y = CGRectGetMaxY(socialFrame) + kWidgetMargin;
         }
         
     }
@@ -527,6 +557,7 @@ NSString* const KWSignInTwitter = @"twitter";
     _resetPasswordButton.enabled = enabled;
     [_twitterButton setEnabled:enabled];
     [_facebookButton setEnabled:enabled];
+    [_linkedInButton setEnabled:enabled];
     _createAccountButton.enabled = enabled;
 }
 
@@ -564,6 +595,8 @@ NSString* const KWSignInTwitter = @"twitter";
             socialType = KWSignInFacebook;
         } else if (sender == _twitterButton) {
             socialType = KWSignInTwitter;
+        } else if (sender == _linkedInButton) {
+            socialType = KWSignInLinkedIn;
         }
         [_signInDelegate doSoicalSignIn:self provider:socialType];
     }
@@ -574,6 +607,7 @@ NSString* const KWSignInTwitter = @"twitter";
     [(MKGradientButton*)_signInButton stopSpinner];
     [(MKGradientButton*)_facebookButton stopSpinner];
     [(MKGradientButton*)_twitterButton stopSpinner];
+    [(MKGradientButton*)_linkedInButton stopSpinner];
     
     [self enableControls:YES];
 }

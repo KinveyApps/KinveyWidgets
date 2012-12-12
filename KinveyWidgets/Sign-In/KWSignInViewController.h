@@ -37,6 +37,11 @@ FOUNDATION_EXPORT NSString* const KWSignInFacebook;
  @see [KWSignInViewController socialLogins]
  */
 FOUNDATION_EXPORT NSString* const KWSignInTwitter;
+/** Constant to specify that the Login screen sohuld show a 'Sign In with LinkedIn' button.
+ @see [KWSignInViewController socialLogins]
+ */
+FOUNDATION_EXPORT NSString* const KWSignInLinkedIn;
+
 
 /** Enum switch to control if the Sign In view uses text or an image for the title area. 
  @see [KWSignInViewController titleType]

@@ -54,6 +54,20 @@
     return button;
 }
 
++ (KWSocialButton *)linkedInButton
+{
+    KWSocialButton* button = [[KWSocialButton alloc] initWithFrame:CGRectMake(0., 0., 240., 30.)];
+    button.gradientArray = @[[UIColor colorWithHexString:@"8BC4DC"], [UIColor colorWithHexString:@"0375A3"]];
+    button.borderColor = [UIColor clearColor];
+    UIImage* image = [UIImage imageNamed:@"linkedIn"];
+    [button setImage:image forState:UIControlStateNormal];
+    button.splitLineColorLeft = [UIColor colorWithHexString:@"035E83"];
+    button.splitLineColorRight = [UIColor colorWithHexString:@"A5DBF1"];
+    button.adjustsImageWhenHighlighted = NO;
+    button.imageView.contentMode = UIViewContentModeCenter;
+    return button;
+}
+
 #pragma mark - overrides
 
 - (void) layoutSubviews

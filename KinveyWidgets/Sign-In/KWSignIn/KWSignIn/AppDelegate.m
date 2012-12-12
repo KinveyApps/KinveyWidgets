@@ -63,6 +63,7 @@
         
         KWSignInViewController* signInViewController = [[KWSignInViewController alloc] init];
         signInViewController.signInDelegate = signindelegate;
+        signInViewController.socialLogins = @[KWSignInFacebook, KWSignInTwitter, KWSignInLinkedIn];
         
         //Uncomment to use text instead of an image as the Title
         //view.title = @"Welcome to Kinvey SignIn";

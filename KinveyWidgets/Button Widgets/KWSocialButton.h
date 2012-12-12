@@ -49,6 +49,8 @@ typedef enum KWSocialButtonMode : NSUInteger {
 + (KWSocialButton*) twitterButton;
 /** A button with the Facebook "f" and the Facebook colors */
 + (KWSocialButton *)facebookButton;
+/** A button with the Facebook "f" and the Facebook colors */
++ (KWSocialButton *)linkedInButton;
 
 
 @end
