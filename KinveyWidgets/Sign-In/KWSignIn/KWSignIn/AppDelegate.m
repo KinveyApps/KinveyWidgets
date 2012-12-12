@@ -41,7 +41,12 @@
         // if not using Twitter for sign in - remove these options keys (set to nil), otherwise supply your app's Twitter credentials
         (void)[[KCSClient sharedClient] initializeKinveyServiceForAppKey:@"<#Kinvey App Key#>"
                                                            withAppSecret:@"<#Kinvey App Secret#>"
-                                                            usingOptions:@{KCS_TWITTER_CLIENT_KEY : @"<#Twitter Client Key#>", KCS_TWITTER_CLIENT_SECRET : @"<#Twitter Client Secret#>"}];
+                                                            usingOptions:@{KCS_TWITTER_CLIENT_KEY : @"<#Twitter Client Key#>", KCS_TWITTER_CLIENT_SECRET : @"<#Twitter Client Secret#>",
+                                                   KCS_LINKEDIN_API_KEY : @"<#LinkedIn API Key#>",
+                                                KCS_LINKEDIN_SECRET_KEY : @"<#LinkedIn Secret Key #>",
+                                           KCS_LINKEDIN_ACCEPT_REDIRECT : @"<#LinkedIn Accept Redirect URI#>",
+                                           KCS_LINKEDIN_CANCEL_REDIRECT : @"<#LinkedIn Cancel Redirect URI#>"}];
+
         
 #warning remove if Not using facebook SDK
         //If not using Facebookf or sign in - remove all the FBSession stuff from your code, otherwise supply your app's Facebook credentials

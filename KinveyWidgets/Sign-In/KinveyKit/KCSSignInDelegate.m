@@ -83,7 +83,7 @@
     [KCSUser getAccessDictionaryFromTwitterFromPrimaryAccount:^(NSDictionary *accessDictOrNil, NSError *errorOrNil) {
         if (errorOrNil == nil && accessDictOrNil != nil) {
             //if we were able to successfully get the twitter credentials, use them to log in to kinvey
-            [KCSUser loginWithWithSocialIdentity:KCSSocialIDTwitter accessDictionary:accessDictOrNil withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {
+            [KCSUser loginWithSocialIdentity:KCSSocialIDTwitter accessDictionary:accessDictOrNil withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {
                 [signInController actionComplete];
                 if (errorOrNil == nil) {
                     [_signInResponder userSucessfullySignedIn:user];
@@ -102,22 +102,22 @@
 - (void) facebookSignInWithFBSession:(FBSession*)session controller:(KWSignInViewController *)signInController
 {
     NSString* accessToken = session.accessToken;
-    [KCSUser loginWithWithSocialIdentity:KCSSocialIDFacebook
-                        accessDictionary:@{ KCSUserAccessTokenKey : accessToken} //construct the special access dictionary for using FB with Kinvey
-                     withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {
-                         [signInController actionComplete];
-                         if (errorOrNil == nil) {
-                             [_signInResponder userSucessfullySignedIn:user];
-                         } else {
-                             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign in with Facebook failed", @"Sign in with fb failed error title")
-                                                                              message:[errorOrNil localizedDescription]
-                                                                             delegate:nil
-                                                                    cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                                                    otherButtonTitles: nil];
-                              [alert show];
-                         }
-                     }];
-
+    [KCSUser loginWithSocialIdentity:KCSSocialIDFacebook
+                    accessDictionary:@{ KCSUserAccessTokenKey : accessToken} //construct the special access dictionary for using FB with Kinvey
+                 withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {
+                     [signInController actionComplete];
+                     if (errorOrNil == nil) {
+                         [_signInResponder userSucessfullySignedIn:user];
+                     } else {
+                         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign in with Facebook failed", @"Sign in with fb failed error title")
+                                                                         message:[errorOrNil localizedDescription]
+                                                                        delegate:nil
+                                                               cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
+                                                               otherButtonTitles: nil];
+                         [alert show];
+                     }
+                 }];
+    
 }
 //make use of the Facebook SDK to get the current user's credentials
 - (void) facebookSignIn:(KWSignInViewController *)signInController
@@ -144,6 +144,53 @@
     }
 }
 
+//helper to create an error for twitter
+- (void) linkedInLoginFailed:(NSError*) error
+{
+    NSString* message = [error localizedDescription];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign in with LinkedIn failed", @"Sign in with LinkedIn failed error alert")
+                                                    message:message
+                                                   delegate:nil
+                                          cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
+                                          otherButtonTitles: nil];
+    [alert show];
+}
+
+- (void) linkedInSignIn:(KWSignInViewController*)signInController
+{
+    //Create a modal web view to show in the interface. This will be used by `getAccessDictionaryFromLinkedIn:usingWebView:`
+    //to diplay the web form the user to enter his LinkedIn credentials
+    UIWebView* webView = [[UIWebView alloc] init];
+    UIViewController* controller = [[UIViewController alloc] init];
+    controller.view = webView;
+    controller.modalPresentationStyle = UIModalPresentationPageSheet;
+    controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [signInController presentViewController:controller animated:YES completion:^{
+    
+        [KCSUser getAccessDictionaryFromLinkedIn:^(NSDictionary *accessDictOrNil, NSError *errorOrNil) {
+            [signInController dismissViewControllerAnimated:YES completion:^{
+                if (errorOrNil == nil && accessDictOrNil != nil) {
+                    //if we were able to successfully get the linkedin credentials, use them to log in to kinvey
+                    [KCSUser loginWithSocialIdentity:KCSSocialIDLinkedIn accessDictionary:accessDictOrNil withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {
+                        [signInController actionComplete];
+                        if (errorOrNil == nil) {
+                            [_signInResponder userSucessfullySignedIn:user];
+                        } else {
+                            [self linkedInLoginFailed:errorOrNil];
+                        }
+                    }];
+                } else {
+                    [signInController actionComplete];
+                    [self linkedInLoginFailed:errorOrNil];
+                }
+                
+            }];
+        } usingWebView:webView];
+        
+    }];
+}
+
+
 //choose the method based on the provider to obtain credentials
 - (void) doSoicalSignIn:(KWSignInViewController *)signInController provider:(NSString *)signInProvider
 {
@@ -151,6 +198,8 @@
         [self twitterSignIn:signInController];
     } else if (signInProvider == KWSignInFacebook) {
         [self facebookSignIn:signInController];
+    } else if (signInProvider == KWSignInLinkedIn) {
+        [self linkedInSignIn:signInController];
     } else {
         @throw [NSException exceptionWithName:@"SocialIDNotSupported" reason:[NSString stringWithFormat:@"social provider '%@' not supported", signInProvider] userInfo:nil];
     }
@@ -232,7 +281,7 @@
                                                           otherButtonTitles: nil];
                     [alert show];
                 }
-             } withProgressBlock:nil];
+            } withProgressBlock:nil];
         } else {
             //there was an error with the create
             [createAccountController actionComplete];
