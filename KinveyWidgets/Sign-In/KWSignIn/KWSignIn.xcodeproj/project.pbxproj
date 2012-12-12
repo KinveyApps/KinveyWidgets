@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		270C54D61679044A007C9870 /* linkedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C54D41679044A007C9870 /* linkedin.png */; };
+		270C54D71679044A007C9870 /* linkedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C54D51679044A007C9870 /* linkedin@2x.png */; };
 		2777E71B162F39AA00684C96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E71A162F39AA00684C96 /* UIKit.framework */; };
 		2777E71D162F39AA00684C96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E71C162F39AA00684C96 /* Foundation.framework */; };
 		2777E71F162F39AA00684C96 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E71E162F39AA00684C96 /* CoreGraphics.framework */; };
@@ -63,6 +65,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		270C54D41679044A007C9870 /* linkedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = linkedin.png; sourceTree = "<group>"; };
+		270C54D51679044A007C9870 /* linkedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linkedin@2x.png"; sourceTree = "<group>"; };
 		2777E716162F39AA00684C96 /* KWSignIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KWSignIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2777E71A162F39AA00684C96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2777E71C162F39AA00684C96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -304,6 +308,8 @@
 		2777E781162F3BA900684C96 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				270C54D41679044A007C9870 /* linkedin.png */,
+				270C54D51679044A007C9870 /* linkedin@2x.png */,
 				2777E782162F3BA900684C96 /* facebook.png */,
 				2777E783162F3BA900684C96 /* facebook@2x.png */,
 				2777E784162F3BA900684C96 /* twitter.png */,
@@ -464,6 +470,8 @@
 				2777E794162F3BA900684C96 /* facebook@2x.png in Resources */,
 				2777E795162F3BA900684C96 /* twitter.png in Resources */,
 				2777E796162F3BA900684C96 /* twitter@2x.png in Resources */,
+				270C54D61679044A007C9870 /* linkedin.png in Resources */,
+				270C54D71679044A007C9870 /* linkedin@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

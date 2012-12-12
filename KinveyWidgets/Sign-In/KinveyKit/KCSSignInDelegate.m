@@ -151,6 +151,8 @@
         [self twitterSignIn:signInController];
     } else if (signInProvider == KWSignInFacebook) {
         [self facebookSignIn:signInController];
+    } else {
+        @throw [NSException exceptionWithName:@"SocialIDNotSupported" reason:[NSString stringWithFormat:@"social provider '%@' not supported", signInProvider] userInfo:nil];
     }
 }
 

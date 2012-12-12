@@ -271,6 +271,11 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
 
 - (void) setupSocialButtons
 {
+    [_lineView removeFromSuperview], _lineView = nil;
+    [_twitterButton removeFromSuperview], _twitterButton = nil;
+    [_facebookButton removeFromSuperview], _facebookButton = nil;
+    [_linkedInButton removeFromSuperview], _linkedInButton = nil;
+
     if ([self hasSocialLogin]) {
         _lineView = [[KWLineView alloc] init];
         _lineView.strokeColor = _lineColor;
@@ -303,11 +308,6 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
             [_linkedInButton removeFromSuperview], _linkedInButton = nil;
         }
         
-    } else {
-        [_lineView removeFromSuperview], _lineView = nil;
-        [_twitterButton removeFromSuperview], _twitterButton = nil;
-        [_facebookButton removeFromSuperview], _facebookButton = nil;
-        [_linkedInButton removeFromSuperview], _linkedInButton = nil;
     }
     [self.view setNeedsLayout];
 }
