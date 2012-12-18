@@ -14,6 +14,8 @@
 #define KCSErrorCode @"kinveyErrorCode"
 /** This is an optional server error string, useful for reporting back to Kinvey for debugging purposes. */
 #define KCSErrorInternalError @"kinveyInternalErrorString"
+/** This is an optional request id, useful for reporting back to Kinvey for debugging purposes. */
+#define KCSRequestId @"kinveyRequestId"
 
 // Error Domains
 #define KCSNetworkErrorDomain @"KCSNetworkErrorDomain"
@@ -22,6 +24,7 @@
 #define KCSUserErrorDomain @"KCSUserErrorDomain"
 #define KCSPushErrorDomain @"KCSPushErrorDomain"
 #define KCSErrorDomain @"KCSErrorDomain"
+#define KCSServerErrorDomain @"KCSServerErrorDomain"
 
 // Error Codes
 typedef enum KCSErrorCodes : NSInteger {
@@ -48,6 +51,7 @@ typedef enum KCSErrorCodes : NSInteger {
     KCSServiceUnavailableError = 503,
     KCSGatewayTimeoutError = 504,
     KCSVersionNotSupporteError = 505,
+    KCSBackendLogicError = 550,
     
     
     // Internal Library Codes (starting at 60000)
@@ -59,7 +63,7 @@ typedef enum KCSErrorCodes : NSInteger {
     KCSAuthenticationRetryError = 60005,
     KCSUserAlreadyLoggedInError = 60006,
     KCSUserAlreadyExistsError = 60007,
-    KCSOperationREquiresCurrentUserError = 60008,
+    KCSOperationRequiresCurrentUserError = 60008,
     KCSLoginFailureError = 60009,
     KCSUnexpectedError = 60010,
     KCSFileError = 60011,

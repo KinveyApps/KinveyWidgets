@@ -20,6 +20,20 @@
  */
 #define KCSStoreKeyResource @"resource"
 
+/**
+ KCSStore options dictionary key for the backing collection name. This can be used instead of suppling a KCSStoreKeyResource. Use with KCSStoreKeyCollectionTemplateClass.
+ 
+ @since 1.11.0
+ */
+#define KCSStoreKeyCollectionName @"collectionName"
+
+/**
+ KCSStore options dictionary key for the backing collection object class. This can be used instead of suppling a KCSStoreKeyResource. Use with KCSStoreKeyCollectionName. If a KCSStoreKeyCollectionName is supplied, but no KCSStoreKeyCollectionTemplateClass, NSMutableDictionary will be used by default.
+ 
+ @since 1.11.0
+ */
+#define KCSStoreKeyCollectionTemplateClass @"collectionClass"
+
 //internal key
 #define KCSStoreKeyOngoingProgress @"referenceprogress"
 #define KCSStoreKeyTitle @"storetitle"

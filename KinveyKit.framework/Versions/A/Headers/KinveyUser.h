@@ -22,14 +22,12 @@
 @class KCSUser;
 @class KCSUserResult;
 
-typedef NSInteger KCSUserActionResult;
-
-enum {
+typedef enum KCSUserActionResult : NSInteger {
     KCSUserCreated = 1,
     KCSUserDeleted = 2,
     KCSUserFound = 3,
     KCSUSerNotFound = 4
-};
+} KCSUserActionResult;
 
 typedef void (^KCSUserCompletionBlock)(KCSUser* user, NSError* errorOrNil, KCSUserActionResult result);
 typedef void (^KCSUserSendEmailBlock)(BOOL emailSent, NSError* errorOrNil);
@@ -41,6 +39,8 @@ typedef enum  {
     KCSSocialIDFacebook,
     /** Twitter */
     KCSSocialIDTwitter,
+    /** LinkedIn */
+    KCSSocialIDLinkedIn,
 } KCSUserSocialIdentifyProvider;
 
 /** Access Dictionary key for the token: both Facebook & Twitter */
@@ -124,6 +124,8 @@ typedef enum  {
 @property (nonatomic, copy) NSString *username;
 /*! Password of this Kinvey User */
 @property (nonatomic, copy) NSString *password;
+/** The Kinvey user collection id for the user */
+@property (nonatomic, retain) NSString *userId;
 /*! Device Tokens of this User */
 @property (nonatomic, copy) NSArray *deviceTokens;
 /*! Session Auth Token, if available */
@@ -149,6 +151,13 @@ typedef enum  {
 /** Clears and saved credentials from the keychain.
  */
 + (void) clearSavedCredentials;
+
+/** The currently active user of the application.
+ 
+ @return the user object for the current user. `nil` if the user has not been set yet or has been cleared.
+ @since 1.11.0
+ */
++ (KCSUser *)activeUser;
 
 ///---------------------------------------------------------------------------------------
 /// @name KinveyKit Internal Services
@@ -258,12 +267,20 @@ typedef enum  {
  @param completionBlock the block to be called when the operation completes or fails
  @since 1.9
  */
-+ (void)loginWithWithSocialIdentity:(KCSUserSocialIdentifyProvider)provider accessDictionary:(NSDictionary*)accessDictionary withCompletionBlock:(KCSUserCompletionBlock)completionBlock;
++ (void)loginWithSocialIdentity:(KCSUserSocialIdentifyProvider)provider accessDictionary:(NSDictionary*)accessDictionary withCompletionBlock:(KCSUserCompletionBlock)completionBlock;
+
+
++ (void)loginWithWithSocialIdentity:(KCSUserSocialIdentifyProvider)provider accessDictionary:(NSDictionary*)accessDictionary withCompletionBlock:(KCSUserCompletionBlock)completionBlock KCS_DEPRECATED(Typo in name- use loginWithSocialIdentity:accessDictionary:withCompletionBlock instead, 1.11.0);
 
 /*! Removes a user and their data from Kinvey
  * @param delegate The delegate to inform once the action is complete.
 */
 - (void)removeWithDelegate: (id<KCSPersistableDelegate>)delegate;
+
+/*! Removes a user and their data from Kinvey
+ * @param completionBlock The block that is called when operation is complete or fails.
+ */
+- (void) removeWithCompletionBlock:(KCSCompletionBlock)completionBlock;
 
 /*! Logout the user.
 */
@@ -283,6 +300,13 @@ typedef enum  {
  */
 - (void)saveWithDelegate: (id<KCSPersistableDelegate>)delegate;
 
+
+/** Called to update the Kinvey state of a user.
+  @param completionBlock block called upon completion or error
+  @since 1.11.0
+ */
+- (void) saveWithCompletionBlock:(KCSCompletionBlock)completionBlock;
+
 /*! Return the value for an attribute for this user
  * @param attribute The attribute to retrieve
  */
@@ -300,6 +324,14 @@ typedef enum  {
  @deprecatedIn 1.10.2
  */
 - (KCSCollection *)userCollection KCS_DEPRECATED(Use [KCSCollection userCollection] instead., 1.10.2);
+
+
+/** Update a user's password and save the user object to the backend. 
+ @param newPassword the new password for the user
+ @param completionBlock block to be notified when operation is completed or fails. The `objectsOrNil` return array will have the updated user as its only value if successful. 
+ @sicne 1.13.0
+ */
+- (void) changePassword:(NSString*)newPassword completionBlock:(KCSCompletionBlock)completionBlock;
 
 ///---------------------------------------------------------------------------------------
 /// @name User email management

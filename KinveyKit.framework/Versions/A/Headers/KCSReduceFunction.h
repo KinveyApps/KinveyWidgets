@@ -37,6 +37,8 @@
  */
 + (KCSReduceFunction*) AVERAGE:(NSString*)fieldToAverage;
 
++ (KCSReduceFunction*) AGGREGATE;
+
 - (NSString *)JSONStringRepresentationForFunction:(NSArray*)fields;
 - (NSDictionary *)JSONStringRepresentationForInitialValue:(NSArray*)fields;
 - (NSString*)outputValueName:(NSArray*)fields;

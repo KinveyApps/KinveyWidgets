@@ -34,6 +34,8 @@ typedef enum {
 - (id)initWithResource:(NSString *)resource usingMethod: (NSInteger)requestMethod;
 
 + (KCSGenericRESTRequest *)requestForResource: (NSString *)resource usingMethod: (NSInteger)requestMethod withCompletionAction: (KCSConnectionCompletionBlock)complete failureAction:(KCSConnectionFailureBlock)failure progressAction: (KCSConnectionProgressBlock)progress;
++ (NSString *)getHTTPMethodForConstant:(NSInteger)constant;
+
 
 - (void)start;
 @end

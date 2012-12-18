@@ -17,6 +17,7 @@
 @property (retain, readonly) NSData *responseData;
 @property (retain, readonly) NSDictionary *userData;
 @property (retain, readonly) NSDictionary *responseHeaders;
+@property (retain, readonly) NSString* requestId;
 
 
 + (KCSConnectionResponse *)connectionResponseWithCode:(NSInteger)code responseData:(NSData *)data headerData:(NSDictionary *)header userData:(NSDictionary *)userDefinedData; 
