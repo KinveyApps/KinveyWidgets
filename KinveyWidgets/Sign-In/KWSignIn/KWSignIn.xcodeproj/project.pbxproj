@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		270C54D61679044A007C9870 /* linkedin.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C54D41679044A007C9870 /* linkedin.png */; };
 		270C54D71679044A007C9870 /* linkedin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C54D51679044A007C9870 /* linkedin@2x.png */; };
+		273C04BD17A19CB6003AE46B /* libUAirship-1.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 273C04BC17A19CB6003AE46B /* libUAirship-1.4.0.a */; };
+		273C04BF17A19CC9003AE46B /* KinveyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273C04BE17A19CC9003AE46B /* KinveyKit.framework */; };
+		273C04C117A19CFA003AE46B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273C04C017A19CFA003AE46B /* FacebookSDK.framework */; };
 		2777E71B162F39AA00684C96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E71A162F39AA00684C96 /* UIKit.framework */; };
 		2777E71D162F39AA00684C96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E71C162F39AA00684C96 /* Foundation.framework */; };
 		2777E71F162F39AA00684C96 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E71E162F39AA00684C96 /* CoreGraphics.framework */; };
@@ -18,8 +21,6 @@
 		2777E72D162F39AA00684C96 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2777E72C162F39AA00684C96 /* Default.png */; };
 		2777E72F162F39AA00684C96 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2777E72E162F39AA00684C96 /* Default@2x.png */; };
 		2777E731162F39AA00684C96 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2777E730162F39AA00684C96 /* Default-568h@2x.png */; };
-		2777E753162F3A7D00684C96 /* KinveyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E752162F3A7D00684C96 /* KinveyKit.framework */; };
-		2777E754162F3A8600684C96 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E738162F39C700684C96 /* FacebookSDK.framework */; };
 		2777E761162F3AC400684C96 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E755162F3AC400684C96 /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2777E762162F3AC400684C96 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E756162F3AC400684C96 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2777E763162F3AC400684C96 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2777E757162F3AC400684C96 /* CFNetwork.framework */; };
@@ -66,7 +67,9 @@
 /* Begin PBXFileReference section */
 		270C54D41679044A007C9870 /* linkedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = linkedin.png; sourceTree = "<group>"; };
 		270C54D51679044A007C9870 /* linkedin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linkedin@2x.png"; sourceTree = "<group>"; };
-		270C54EE16790A53007C9870 /* libUAirshipPush-1.3.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirshipPush-1.3.3.a"; path = "../../../Airship/libUAirshipPush-1.3.3.a"; sourceTree = "<group>"; };
+		273C04BC17A19CB6003AE46B /* libUAirship-1.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirship-1.4.0.a"; path = "../../../Airship/libUAirship-1.4.0.a"; sourceTree = "<group>"; };
+		273C04BE17A19CC9003AE46B /* KinveyKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KinveyKit.framework; path = ../../../Kinvey/KinveyKit.framework; sourceTree = "<group>"; };
+		273C04C017A19CFA003AE46B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		2777E716162F39AA00684C96 /* KWSignIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KWSignIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2777E71A162F39AA00684C96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2777E71C162F39AA00684C96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -80,7 +83,6 @@
 		2777E72C162F39AA00684C96 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2777E72E162F39AA00684C96 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2777E730162F39AA00684C96 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		2777E738162F39C700684C96 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		2777E739162F39C700684C96 /* KCSSignInDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCSSignInDelegate.h; sourceTree = "<group>"; };
 		2777E73A162F39C700684C96 /* KCSSignInDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCSSignInDelegate.m; sourceTree = "<group>"; };
 		2777E73B162F39C700684C96 /* KWCreateAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KWCreateAccountViewController.h; path = ../KWCreateAccountViewController.h; sourceTree = "<group>"; };
@@ -98,7 +100,6 @@
 		2777E748162F39C700684C96 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
 		2777E749162F39C700684C96 /* lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock@2x.png"; sourceTree = "<group>"; };
 		2777E74A162F39C700684C96 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		2777E752162F3A7D00684C96 /* KinveyKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KinveyKit.framework; path = ../../../KinveyKit.framework; sourceTree = "<group>"; };
 		2777E755162F3AC400684C96 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		2777E756162F3AC400684C96 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		2777E757162F3AC400684C96 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -150,7 +151,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2777E76F162F3B4300684C96 /* CoreLocation.framework in Frameworks */,
+				273C04C117A19CFA003AE46B /* FacebookSDK.framework in Frameworks */,
 				2777E770162F3B4300684C96 /* CoreTelephony.framework in Frameworks */,
+				273C04BD17A19CB6003AE46B /* libUAirship-1.4.0.a in Frameworks */,
 				2777E761162F3AC400684C96 /* Accounts.framework in Frameworks */,
 				2777E762162F3AC400684C96 /* AdSupport.framework in Frameworks */,
 				2777E763162F3AC400684C96 /* CFNetwork.framework in Frameworks */,
@@ -165,9 +168,8 @@
 				2777E76C162F3AC400684C96 /* Twitter.framework in Frameworks */,
 				2777E71F162F39AA00684C96 /* CoreGraphics.framework in Frameworks */,
 				2777E71B162F39AA00684C96 /* UIKit.framework in Frameworks */,
+				273C04BF17A19CC9003AE46B /* KinveyKit.framework in Frameworks */,
 				2777E71D162F39AA00684C96 /* Foundation.framework in Frameworks */,
-				2777E753162F3A7D00684C96 /* KinveyKit.framework in Frameworks */,
-				2777E754162F3A8600684C96 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,7 +196,8 @@
 		2777E719162F39AA00684C96 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				270C54EE16790A53007C9870 /* libUAirshipPush-1.3.3.a */,
+				273C04BE17A19CC9003AE46B /* KinveyKit.framework */,
+				273C04BC17A19CB6003AE46B /* libUAirship-1.4.0.a */,
 				2777E76D162F3B4300684C96 /* CoreLocation.framework */,
 				2777E76E162F3B4300684C96 /* CoreTelephony.framework */,
 				2777E755162F3AC400684C96 /* Accounts.framework */,
@@ -209,7 +212,6 @@
 				2777E75E162F3AC400684C96 /* StoreKit.framework */,
 				2777E75F162F3AC400684C96 /* SystemConfiguration.framework */,
 				2777E760162F3AC400684C96 /* Twitter.framework */,
-				2777E752162F3A7D00684C96 /* KinveyKit.framework */,
 				2777E71A162F39AA00684C96 /* UIKit.framework */,
 				2777E71C162F39AA00684C96 /* Foundation.framework */,
 				2777E71E162F39AA00684C96 /* CoreGraphics.framework */,
@@ -249,7 +251,7 @@
 		2777E737162F39C700684C96 /* KinveyKit */ = {
 			isa = PBXGroup;
 			children = (
-				2777E738162F39C700684C96 /* FacebookSDK.framework */,
+				273C04C017A19CFA003AE46B /* FacebookSDK.framework */,
 				2777E739162F39C700684C96 /* KCSSignInDelegate.h */,
 				2777E73A162F39C700684C96 /* KCSSignInDelegate.m */,
 			);
@@ -574,9 +576,9 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../..\"",
-					"\"$(SRCROOT)/../KinveyKit\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/../../../Kinvey",
+					"$(SRCROOT)/../KinveyKit",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KWSignIn/KWSignIn-Prefix.pch";
@@ -596,9 +598,9 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../..\"",
-					"\"$(SRCROOT)/../KinveyKit\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/../../../Kinvey",
+					"$(SRCROOT)/../KinveyKit",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KWSignIn/KWSignIn-Prefix.pch";
