@@ -101,7 +101,7 @@
 //helper to perform the FB login
 - (void) facebookSignInWithFBSession:(FBSession*)session controller:(KWSignInViewController *)signInController
 {
-    NSString* accessToken = session.accessToken;
+    NSString* accessToken = session.accessTokenData.accessToken;
     [KCSUser loginWithSocialIdentity:KCSSocialIDFacebook
                     accessDictionary:@{ KCSUserAccessTokenKey : accessToken} //construct the special access dictionary for using FB with Kinvey
                  withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {

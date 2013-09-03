@@ -4,15 +4,22 @@
 //
 //  Copyright (c) 2008-2013, Kinvey, Inc. All rights reserved.
 //
-//  This software contains valuable confidential and proprietary information of
-//  KINVEY, INC and is subject to applicable licensing agreements.
-//  Unauthorized reproduction, transmission or distribution of this file and its
-//  contents is a violation of applicable laws.
+// This software is licensed to you under the Kinvey terms of service located at
+// http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
+// software, you hereby accept such terms of service  (and any agreement referenced
+// therein) and agree that you have read, understand and agree to be bound by such
+// terms of service and are of legal age to agree to such terms with Kinvey.
+//
+// This software contains valuable confidential and proprietary information of
+// KINVEY, INC and is subject to applicable licensing agreements.
+// Unauthorized reproduction, transmission or distribution of this file and its
+// contents is a violation of applicable laws.
+//
 
 #import <Foundation/Foundation.h>
 #import "KinveyHeaderInfo.h"
 
-#define MINIMUM_KCS_VERSION_SUPPORTED @"2.0"
+#define MINIMUM_KCS_VERSION_SUPPORTED @"3.0"
 
 @class KCSAnalytics;
 @class UIApplication;
@@ -24,28 +31,21 @@
 
 
 // Keys for options hash
-#define KCS_APP_KEY_KEY @"kcsAppKey"
-#define KCS_APP_SECRET_KEY @"kcsSecret"
-#define KCS_BASE_URL_KEY @"kcsBaseUrl"
-#define KCS_PORT_KEY @"kcsPortKey"
-#define KCS_SERVICE_KEY @"kcsServiceKey"
-#define KCS_CONNECTION_TIMEOUT_KEY @"kcsConnectionTimeout"
+/** App Key plist key: "KCS_APP_KEY" */
+KCS_CONSTANT KCS_APP_KEY;
+/** App Secret plist key: "KCS_APP_SECRET" */
+KCS_CONSTANT KCS_APP_SECRET;
 
+/** Timeout plist key: "KCS_CONNECTION_TIMEOUT" */
+KCS_CONSTANT KCS_CONNECTION_TIMEOUT;
+/** NSNumber representation of NSURLCachePolicy */
+KCS_CONSTANT KCS_URL_CACHE_POLICY;
+/** Parsing format for dates handled by the system. ISO6801 format */
+KCS_CONSTANT KCS_DATE_FORMAT;
 /** This object shoul implement the `KCSLogSink` protocol. Use this along with +[KinveyKit configureLoggingWithNetworkEnabled:debugEnabled:traceEnabled:warningEnabled:errorEnabled:] to send log messages to a custom sink.*/
-#define KCS_LOG_SINK @"kcsLogSink"
+KCS_CONSTANT KCS_LOG_SINK;
 
-/** Set this key's value to @NO to turn off the ability to create implict users. This will generate an error if a user is not logged in and a request is made. **/
-#define KCS_USER_CAN_CREATE_IMPLICT @"kcsCreateImplicitUsers"
-
-#define KCS_PUSH_KEY_KEY @"kcsPushKey"
-#define KCS_PUSH_SECRET_KEY @"kcsPushSecret"
-#define KCS_PUSH_IS_ENABLED_KEY @"kcsPushEnabled"
-#define KCS_PUSH_MODE_KEY @"kcsPushMode"
-
-#define KCS_PUSH_DEVELOPMENT @"development"
-#define KCS_PUSH_DEBUG @"development"
-#define KCS_PUSH_PRODUCTION @"production"
-#define KCS_PUSH_RELEASE @"production"
+KCS_CONSTANT KCS_SERVICE_HOST;
 
 #define KCS_USE_OLD_PING_STYLE_KEY @"kcsPingStyle"
 
@@ -61,6 +61,8 @@
 #define KCS_SALESFORCE_CLIENT_ID @"client_id"
 
 #define KCS_CACHES_USE_V2 @"kinvey.usev2caching"
+
+@class KCSClientConfiguration;
 
 /*! A Singleton Class that provides access to all Kinvey Services.
 
@@ -100,8 +102,10 @@
 /// @name Kinvey Service URL Access
 ///---------------------------------------------------------------------------------------
 
-/*! Kinvey Service Hostname */
-@property (nonatomic, copy) NSString *serviceHostname;
+/*! Kinvey Service Hostname 
+ @deprecatedIn 1.20.0
+ */
+@property (nonatomic, readonly) NSString *serviceHostname KCS_DEPRECATED(@"set via KCSConfiguration", 1.20.0);
 
 /*! Base URL for Kinvey data service */
 @property (nonatomic, copy, readonly) NSString *appdataBaseURL;
@@ -112,49 +116,46 @@
 /*! Base URL for Kinvey User Service */
 @property (nonatomic, copy, readonly) NSString *userBaseURL;
 
-/*! Connection Timeout value, set this to cause shorter or longer network timeouts. */
-@property double connectionTimeout;
+/*! Connection Timeout value, set this to cause shorter or longer network timeouts. Set via configuration KCS_CONNECTION_TIMEOUT. */
+@property (nonatomic, readonly) double connectionTimeout;
 
-/*! Current Kinvey Cacheing policy */
-@property (nonatomic, readonly) NSURLCacheStoragePolicy cachePolicy;
+/*! Current Kinvey Cacheing policy 
+ deprecatedIn 1.20.0
+ */
+@property (nonatomic, readonly) NSURLCacheStoragePolicy cachePolicy KCS_DEPRECATED(@"set via KCSConfiguration", 1.20.0);
 
-#if TARGET_OS_IPHONE
+/** The Configuration Options */
+@property (nonatomic, retain) KCSClientConfiguration* configuration;
+
 /*! Overall Network Status Reachability Object */
 @property (nonatomic, strong, readonly) KCSReachability *networkReachability;
 
 /*! Kinvey Host Specific Reachability Object */
 @property (nonatomic, strong, readonly) KCSReachability *kinveyReachability;
-#endif
-
-
 
 ///---------------------------------------------------------------------------------------
 /// @name User Authentication
 ///---------------------------------------------------------------------------------------
-/*! Current Kinvey User */
-@property (nonatomic, strong) KCSUser *currentUser;
-/*! Has the current user been authenticated?  (NOTE: Thread Safe) */
-@property (nonatomic) BOOL userIsAuthenticated;
-/*! Is user authentication in progress?  (NOTE: Thread Safe, can be used to spin for completion) */
-@property (nonatomic) BOOL userAuthenticationInProgress;
-/*! Stored authentication credentials */
-@property (nonatomic, copy) NSURLCredential *authCredentials;
 
+/*! Current Kinvey User
+ @deprecatedIn 1.19.0
+ */
+@property (nonatomic, strong) KCSUser *currentUser KCS_DEPRECATED(Use [KCSuser activeUser] instead, 1.19.0);
 
-
-// Do not expose this to clients yet... soon?
 
 ///---------------------------------------------------------------------------------------
 /// @name Analytics
 ///---------------------------------------------------------------------------------------
+
 /*! The suite of Kinvey Analytics Services */
 @property (nonatomic, readonly) KCSAnalytics *analytics;
 
 ///---------------------------------------------------------------------------------------
 /// @name Data Type Support
 ///---------------------------------------------------------------------------------------
-/*! NSDateFormatter String for Date storage */
-@property (retain, nonatomic) NSString *dateStorageFormatString;
+
+/** NSDateFormatter String for Date storage. Set via configuration. */
+@property (retain, nonatomic, readonly) NSString *dateStorageFormatString;
 
 
 
@@ -165,6 +166,7 @@
 ///---------------------------------------------------------------------------------------
 /// @name Accessing the Singleton
 ///---------------------------------------------------------------------------------------
+
 /*! Return the instance of the singleton.  (NOTE: Thread Safe)
  
  This routine will give you access to all the Kinvey Services by returning the Singleton KCSClient that
@@ -173,11 +175,12 @@
  @returns The instance of the singleton client.
  
  */
-+ (KCSClient *)sharedClient;
++ (instancetype)sharedClient;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initializing the Singleton
 ///---------------------------------------------------------------------------------------
+
 /*! Initialize the singleton KCSClient with this application's key and the secret for this app, along with any needed options.
  
  This routine (or initializeKinveyServiceWithPropertyList) MUST be called prior to using the Kinvey Service otherwise all access will fail.  This routine authenticates you with
@@ -206,7 +209,7 @@
  For example, KCSClient *client = [[KCSClient sharedClient] initializeKinveyServiceForAppKey:@"key" withAppSecret:@"secret" usingOptions:nil];
  
  */
-- (KCSClient *)initializeKinveyServiceForAppKey: (NSString *)appKey withAppSecret: (NSString *)appSecret usingOptions: (NSDictionary *)options;
+- (instancetype)initializeKinveyServiceForAppKey: (NSString *)appKey withAppSecret: (NSString *)appSecret usingOptions: (NSDictionary *)options;
 
 /*! Initialize the singleton KCSClient with a dictionary plist containing options to run
  
@@ -220,7 +223,17 @@
  @exception KinveyInitializationError Raised to indicate an issue loading the plist file, Kinvey Services will not be available.
  @return The KCSClient singleton (can be used to chain several calls)
  */
-- (KCSClient *)initializeKinveyServiceWithPropertyList;
+- (instancetype)initializeKinveyServiceWithPropertyList;
+
+
+/** Initialize the singleton KCSClient with the supplied conifguration.
+ 
+ @param configuration the app's configuration, including the app key and app secret
+ @return The KCSClient singleton (can be used to chain several calls)
+ @since 1.20.0
+ */
+- (void) initializeWithConfiguration:(KCSClientConfiguration*)configuration;
+
 
 #pragma mark Client Interface
 

@@ -4,6 +4,17 @@
 //
 //  Copyright (c) 2012-2013 Kinvey. All rights reserved.
 //
+// This software is licensed to you under the Kinvey terms of service located at
+// http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
+// software, you hereby accept such terms of service  (and any agreement referenced
+// therein) and agree that you have read, understand and agree to be bound by such
+// terms of service and are of legal age to agree to such terms with Kinvey.
+//
+// This software contains valuable confidential and proprietary information of
+// KINVEY, INC and is subject to applicable licensing agreements.
+// Unauthorized reproduction, transmission or distribution of this file and its
+// contents is a violation of applicable laws.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -12,21 +23,21 @@
 /** Fieldname to access an object's creator, using KCSQuery.
  @since 1.10.2
  */
-FOUNDATION_EXPORT NSString* KCSMetadataFieldCreator;
+KCS_CONSTANT KCSMetadataFieldCreator;
 /** Fieldname to access an object's last modified time, using KCSQuery.
  @since 1.10.2
  */
-FOUNDATION_EXPORT NSString* KCSMetadataFieldLastModifiedTime;
+KCS_CONSTANT KCSMetadataFieldLastModifiedTime;
 /** Fieldname to access an object's entity creation time, using KCSQuery.
  @since 1.14.2
  */
-FOUNDATION_EXPORT NSString* KCSMetadataFieldCreationTime;
+KCS_CONSTANT KCSMetadataFieldCreationTime;
 
 /** This object represents backend information about the entity, such a timestamp and read/write permissions.
  
  To take advantage of KCSMetadata, map an entity property of this type to field `KCSEntityKeyMetadata`. The object that maps a particular instance is the "associated object." 
  */
-@interface KCSMetadata : NSObject
+@interface KCSMetadata : NSObject <NSCopying, NSCoding>
 
 /** The array of users with explicit read access.
  

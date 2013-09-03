@@ -4,12 +4,17 @@
 //
 //  Copyright (c) 2008-2013, Kinvey, Inc. All rights reserved.
 //
-//  This software contains valuable confidential and proprietary information of
-//  KINVEY, INC and is subject to applicable licensing agreements.
-//  Unauthorized reproduction, transmission or distribution of this file and its
-//  contents is a violation of applicable laws.
-
-#ifndef NO_URBAN_AIRSHIP_PUSH
+// This software is licensed to you under the Kinvey terms of service located at
+// http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
+// software, you hereby accept such terms of service  (and any agreement referenced
+// therein) and agree that you have read, understand and agree to be bound by such
+// terms of service and are of legal age to agree to such terms with Kinvey.
+//
+// This software contains valuable confidential and proprietary information of
+// KINVEY, INC and is subject to applicable licensing agreements.
+// Unauthorized reproduction, transmission or distribution of this file and its
+// contents is a violation of applicable laws.
+//
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
@@ -22,42 +27,11 @@ typedef enum KCS_PUSH_MODE : NSInteger {
     KCS_PUSHMODE_DEVELOPMENT,
     /** for use when the app is deployed */
     KCS_PUSHMODE_PRODUCTION
-} KCS_PUSH_MODE;
+} KCS_PUSH_MODE KCS_DEPRECATED(push mode is all server-side now, 1.19.0);
 
 /*! Push Service (APNS) Helper Container
 
- This Singleton is used as a collection of all items related to the Push Service offered by Kinvey.
- 
- Instead of initializing with a call to `+[KCSPush initializePushWithPushKey:pushSecret:mode:enabled:]`, push can also be configured with a property list. 
- 
- ### Setup with a Property List
- __Property List Key Strings__
- 
- To initialize using a plist file you need to use certain `NSString`s in [the plist file](getting-started#usingaplist). The following gives you the corresponding strings and a description of what they do (The NSStrings start with a lowercase kcs):
- 
- __KCS_APP_KEY_KEY__
- 
- `kcsAppKey`: App Key as provided by console
- 
- __KCS_APP_SECRET_KEY__
- 
- `kcsSecret`: App Secret as provided by console
- 
- __KCS_PUSH_MODE_KEY__
- 
- `kcsPushMode`: Push mode, development or release, use "development" for development and "production" for production
- 
- __KCS_PUSH_KEY_KEY__
- 
- `kcsPushKey`: Push key for specified push mode
- 
- __KCS_PUSH_SECRET_KEY__
- 
- `kcsPushSecret`: Push secret for specified push mode
- 
- __KCS_PUSH_IS_ENABLED_KEY__
- 
- `kcsPushEnabled`: Set to YES to enable push, otherwise Push will be disabled
+ This Singleton is used as a collection of all items related to the Push Service offered by Kinvey
  
  */
 @interface KCSPush : NSObject
@@ -67,6 +41,7 @@ typedef enum KCS_PUSH_MODE : NSInteger {
 ///---------------------------------------------------------------------------------------
 /// @name Initialization & disposal
 ///---------------------------------------------------------------------------------------
+
 /*! Return the single shared instance of the Push Notification Service
  
  This routine returns the shared Push Service object, creating it if required.  This should be used
@@ -79,23 +54,6 @@ typedef enum KCS_PUSH_MODE : NSInteger {
 ///---------------------------------------------------------------------------------------
 /// @name Startup / Shutdown
 ///---------------------------------------------------------------------------------------
-/*! Start the Push Service
- 
- This routine is used to register with the Kinvey Push service (not the same as registering with APNS)
- and to prepare to receive notifications.  This handles device management and user management.
- 
- To use this routine, place a call to this in the applicationDidLoad:withOptions method in the App Delegate.
- `[[KCSPush sharedPush] onLoadHelper:options];`
- 
- Where options (documented in KCSClient) contains the Keys for the Push service.
- 
- @warning Push notifications will not work if this method has not been called.
- 
- @param options The options dictionary (see KCSClient) that contains the settings for the push service.
- @deprecated Use onLoadHelper:error: instead.
- @depcratedIn 1.9
- */
-- (void)onLoadHelper: (NSDictionary *)options KCS_DEPRECATED(use +initializePushWithPushKey:pushSecret:mode:enabled: instead, 1.9);
 
 /*! Start the Push Service
  
@@ -116,7 +74,7 @@ typedef enum KCS_PUSH_MODE : NSInteger {
  @deprecated use +[KCSPush initializePushWithPushKey:pushSecret:mode:enabled:] instead
  @deprecatedIn 1.17.0
  */
-- (BOOL) onLoadHelper:(NSDictionary *)options error:(NSError**)error KCS_DEPRECATED(use +initializePushWithPushKey:pushSecret:mode:enabled: instead, 1.17.0);
+- (BOOL) onLoadHelper:(NSDictionary *)options error:(NSError**)error KCS_DEPRECATED(use +registerForPush instead, 1.17.0);
 
 /** Start the Push Service
  
@@ -131,8 +89,18 @@ typedef enum KCS_PUSH_MODE : NSInteger {
  @param pushMode puts the app in development or production. This must match the setting in the Kinvey console. 
  @param enabled should be `YES` to enable push, set to `NO` to temporarily disable push
  @since 1.17.0
+ @deprecatedIn 1.19.0
  */
-+ (void) initializePushWithPushKey:(NSString*)pushKey pushSecret:(NSString*)pushSecretKey mode:(KCS_PUSH_MODE)pushMode enabled:(BOOL)enabled;
++ (void) initializePushWithPushKey:(NSString*)pushKey pushSecret:(NSString*)pushSecretKey mode:(KCS_PUSH_MODE)pushMode enabled:(BOOL)enabled KCS_DEPRECATED(use +registerForPush instead, 1.19.0);
+
+/** Start the Push Service
+ 
+ To use this routine, place a call to this in the applicationDidLoad:withOptions method in the App Delegate.
+ 
+ @warning Push notifications will not work if this method has not been called.
+ @since 1.19.0
+ */
++ (void) registerForPush;
 
 /*! Clean-up Push Service
  
@@ -200,8 +168,30 @@ typedef enum KCS_PUSH_MODE : NSInteger {
  
  @param application The application sending this message.
  @param deviceToken The device token of the device this instance of the application is running on.
+ @deprecatedIn 1.19.0
  */
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken KCS_DEPRECATED(Use +application:didRegisterForRemoteNotificationsWithDeviceToken:completionBlock: instead to capture registration state, 1.19.0);
+
+/*! Register device for remote notifications
+ 
+ The Kinvey library requires information from the registration of remote notifications to perform several tasks.
+ This information needs to be forwarded to the library when received by the App Delegate. This method registers the token with the active user. If there is no active user at the time, the push token is cached and registered automatically registered when the active user is set.
+
+ Call this in your implementation for handling registration:
+ 
+ - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+ [[KCSPush sharedPush] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+ // Additional registration goes here (if neeeded).
+ }
+ 
+ 
+ @param application The application sending this message.
+ @param deviceToken The device token of the device this instance of the application is running on.
+ @param completionBlock called after the token is registered on the server. `success` will be no if there is active user or the registration fails. If there is a user and the registration fails, then there will be an error object. In the error case, the request should be tried again later if it was a network error.
+ 
+ @since 1.19.0
+ */
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken completionBlock:(void (^)(BOOL success, NSError* error))completionBlock;
 
 /*! Failed to register device for remote notifications
  
@@ -243,12 +233,4 @@ typedef enum KCS_PUSH_MODE : NSInteger {
  */
 - (void)resetPushBadge;
 
-// - (void) exposeSettingsViewInView: (UIViewController *)parentViewController
-
-
-- (void) removeDeviceToken;
-
 @end
-
-#endif /* NO_URBAN_AIRSHIP_PUSH */
-
