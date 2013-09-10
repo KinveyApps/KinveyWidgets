@@ -77,7 +77,7 @@
 //callback from the resend email button 
 - (void) resendEmail:(MKGradientButton*)sender
 {
-    if (self.signInDelegate != nil && [self.signInDelegate respondsToSelector:@selector(doSendEmailVerification:username:)]) {
+    if (self.signInDelegate != nil && [self.signInDelegate respondsToSelector:@selector(doSendEmailVerification:)]) {
         if (self.showsActivityIndicator) {
             sender.enabled = NO;
             [(MKGradientButton*)sender startSpinner];
