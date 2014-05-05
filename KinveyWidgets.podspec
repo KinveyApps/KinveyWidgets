@@ -14,8 +14,7 @@ Pod::Spec.new do |s|
   s.author             = { "Michael Katz" => "michael@kinvey.com", "Kinvey" => "sales@kinvey.com" }
   s.social_media_url = "http://twitter.com/Kinvey"
   s.platform     = :ios
-  #s.source       = { :git => "https://github.com/KinveyApps/KinveyWidgets.git", :tag => "v1.0.0" }
-s.source       = { :git => "https://github.com/KinveyApps/KinveyWidgets.git", :commit => "c45f285809bbde14c64b65b3b36b88c16fb0a389"}
+  s.source       = { :git => "https://github.com/KinveyApps/KinveyWidgets.git", :tag => "v1.0.0" }
   s.source_files  = 'KinveyWidgets', 'KinveyWidgets/**/*.{h,m}', 'iOS-UI-Utils/Classes/**/*.{h,m}'
   s.exclude_files = 'KinveyWidgets/Sign-In'
   s.resources = "KinveyWidgets/Button Widgets/resources/*.png"
