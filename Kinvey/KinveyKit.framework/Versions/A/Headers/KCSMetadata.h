@@ -2,7 +2,7 @@
 //  KCSMetadata.h
 //  KinveyKit
 //
-//  Copyright (c) 2012-2013 Kinvey. All rights reserved.
+//  Copyright (c) 2012-2014 Kinvey. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -78,49 +78,8 @@ KCS_CONSTANT KCSMetadataFieldCreationTime;
  */
 - (BOOL) hasWritePermission;
 
-/** A list of users that have explict permission to read this entity. The actual set of users that can read the entity may be greater than this list, depending on the global permissions of the associated object or the object's containing collection. 
- @return an array of user ids that have acess to read this entity
- @see setUsersWithReadAccess:
- @see isGloballyReadable
- @see readers
- @deprecatedIn 1.14.0
- */
-- (NSArray*) usersWithReadAccess KCS_DEPRECATED(Use 'readers' array directly, 1.14.0);
-
-/** Update the array of users with explicit read access. 
- 
- Any change in permissions do not take effect until the associated object is saved to the backend.
- @param readers a non-nil array of string user id's that have explicit read access to the associated object.
- @see usersWithReadAccess
- @see setGloballyReadable:
- @see readers
- @deprecatedIn 1.14.0
- */
-- (void) setUsersWithReadAccess:(NSArray*) readers KCS_DEPRECATED(Use 'readers' array directly, 1.14.0);
-
-/** A list of users that have explict permission to write this entity. The actual set of users that can write the entity may be greater than this list, depending on the global permissions of the associated object or the object's containing collection. 
- @return an array of user ids that have acess to read this entity
- @see setUsersWithWriteAccess:
- @see isGloballyWritable
- @see writers
- @deprecatedIn 1.14.0
- */
-- (NSArray*) usersWithWriteAccess KCS_DEPRECATED(Use 'writers' array directly, 1.14.0);
-
-/** Update the array of users with explicit write access. 
-
- Any change in permissions do not take effect until the associated object is saved to the backend.
- @param writers a non-nil array of string user id's that have explicit write access to the associated object.
- @see usersWithWriteAccess
- @see setGloballyWritable:
- @see writers
- @deprecatedIn 1.14.0
- */
-- (void) setUsersWithWriteAccess:(NSArray*) writers KCS_DEPRECATED(Use 'writers' array directly, 1.14.0);
-
 /** The global read permission for the associated entity. This could be broader or more restrictive than its collection's permissions.
  @return `YES` if the entity can be read by any user
- @see usersWithReadAccess
  @see setGloballyReadable:
  */
 - (BOOL) isGloballyReadable;
@@ -129,14 +88,12 @@ KCS_CONSTANT KCSMetadataFieldCreationTime;
  
  Any change in permissions do not take effect until the associated object is saved to the backend.
  @param readable `YES` to allow the associated object to be read by any user.
- @see setUsersWithReadAccess:
  @see isGloballyReadable
 */
 - (void) setGloballyReadable:(BOOL)readable;
 
 /** The global write permission for the associated entity. This could be broader or more restrictive than its collection's permissions.
  @return `YES` if the entity can be modified by any user
- @see usersWithWriteAccess
  @see setGloballyWritable:
  */
 - (BOOL) isGloballyWritable;
@@ -145,7 +102,6 @@ KCS_CONSTANT KCSMetadataFieldCreationTime;
  
  Any change in permissions do not take effect until the associated object is saved to the backend.
  @param writable `YES` to allow the associated object to be modified by any user.
- @see setUsersWithWriteAccess:
  @see isGloballyWritable
  */
 - (void) setGloballyWritable:(BOOL)writable;

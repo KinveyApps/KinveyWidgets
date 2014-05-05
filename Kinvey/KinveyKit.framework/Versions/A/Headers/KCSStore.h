@@ -2,7 +2,7 @@
 //  KCSStore.h
 //  KinveyKit
 //
-//  Copyright (c) 2012-2013 Kinvey, Inc. All rights reserved.
+//  Copyright (c) 2012-2014 Kinvey, Inc. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -26,6 +26,7 @@
 @class KCSReduceFunction;
 @class KCSGroup;
 
+KCS_DEPRECATED(use [KCSQuery query] instead, 1.26.0)
 @interface KCSAllObjects : KCSQuery
 @end
 
@@ -89,9 +90,11 @@
  @param authHandler The Kinvey Authentication Handler used to authenticate backend requests. Reserved for future use.
  
  @return An autoreleased empty store with configured options and given authentication.
- 
+ @deprecatedIn 1.22.0
+ @deprecated Use storeWithOptions: instead
  */
-+ (instancetype)storeWithAuthHandler: (KCSAuthHandler *)authHandler withOptions: (NSDictionary *)options;
++ (instancetype)storeWithAuthHandler: (KCSAuthHandler *)authHandler withOptions: (NSDictionary *)options KCS_DEPRECATED(Auth handler not used--use storeWitOptions: instead, 1.22.0);
+
 
 #pragma mark -
 #pragma mark Adding/Updating
@@ -121,15 +124,14 @@
  
  This method takes a query object and calls the store to provide an array of objects that satisfies the query.
  
- @param query A query to act on a store.  The store defines the type of queries it accepts, an object of type `KCSAllObjects` causes all objects to be returned.
+ @param query A query to act on a store.  The store defines the type of queries it accepts, an object of type `[KCSQuery query]` causes all objects to be returned.
  @param completionBlock A block that gets invoked when the query/fetch is "complete" (as defined by the store)
  @param progressBlock A block that is invoked whenever the store can offer an update on the progress of the operation.
  
 */
 - (void)queryWithQuery: (id)query withCompletionBlock: (KCSCompletionBlock)completionBlock withProgressBlock: (KCSProgressBlock)progressBlock;
 
-#pragma mark -
-#pragma mark Removing
+#pragma mark - Removing
 ///---------------------------------------------------------------------------------------
 /// @name Removing
 ///---------------------------------------------------------------------------------------
@@ -137,12 +139,12 @@
 /*! Remove an object (or objects) from the store.
  
  @param object An object (or query) to remove from the store (if the object is a NSArray or query, matching objects will be removed)
- @param completionBlock A block that gets invoked when the remove is "complete" (as defined by the store)
+ @param completionBlock A block that gets invoked when the remove is "complete" (as defined by the store). Count is the number of items deleted, if any.
  @param progressBlock A block that is invoked whenever the store can offer an update on the progress of the operation.
- 
+ @updated 1.24.0 completion block is now a count block instead of an object block
  */
 
-- (void)removeObject: (id)object withCompletionBlock: (KCSCompletionBlock)completionBlock withProgressBlock: (KCSProgressBlock)progressBlock;
+- (void)removeObject: (id)object withCompletionBlock:(KCSCountBlock)completionBlock withProgressBlock: (KCSProgressBlock)progressBlock;
 
 
 #pragma mark -
@@ -182,18 +184,19 @@
  This method is used to control how the store authenticates with the backend.
  
  @param handler The Kinvey Auth Handler to be used during requests.
- 
+ @deprecatedIn 1.22.0
  */
-- (void)setAuthHandler: (KCSAuthHandler *)handler;
+- (void)setAuthHandler: (KCSAuthHandler *)handler KCS_DEPRECATED(Auth handler not used, 1.22.0);
+;
 
 /*! Get the currently set Kinvey Auth Handler for this Store
  
  This method is used to find the currently set Kinvey Auth Handler for this Store.
  
  @return The currently set Kinvey Auth Handler.
- 
+ @deprecatedIn 1.22.0
  */
-- (KCSAuthHandler *)authHandler;
+- (KCSAuthHandler *)authHandler KCS_DEPRECATED(Auth handler not used, 1.22.0);
 
 
 @end

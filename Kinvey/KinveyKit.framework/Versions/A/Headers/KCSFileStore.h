@@ -2,7 +2,7 @@
 //  KCSFileStore.h
 //  KinveyKit
 //
-// Copyright (c) 2013, Kinvey, Inc. All rights reserved.
+// Copyright (c) 2013-2014, Kinvey, Inc. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -291,5 +291,12 @@ FOUNDATION_EXPORT NSString* const KCSFileStoreCollectionName;
  @since 1.18.0
  */
 + (void) deleteFile:(NSString*)fileId completionBlock:(KCSCountBlock)completionBlock;
+
+
+/** Removes all downloaded files managed by KinveyKit.
+ 
+ @since 1.24.0
+ */
++ (void) clearCachedFiles;
 
 @end

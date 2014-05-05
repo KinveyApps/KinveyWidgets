@@ -2,7 +2,7 @@
 //  KinveyPing.h
 //  KinveyKit
 //
-//  Copyright (c) 2008-2013, Kinvey, Inc. All rights reserved.
+//  Copyright (c) 2008-2014, Kinvey, Inc. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -63,47 +63,6 @@ typedef void(^KCSPingBlock)(KCSPingResult *result);
  
  */
 @interface KCSPing : NSObject
-///---------------------------------------------------------------------------------------
-/// @name Network Reachability
-///---------------------------------------------------------------------------------------
-
-/*! Verify the device will be able to access a network
- 
- This method returns true if the device will be able to make network requests.  This checks
- to make sure that the device is not in Airplane mode, has the radios turned on, has a WiFi
- connection, etc.  It does not check to see if we can communicate with Kinvey, only that
- a network connection is possible.
- 
- @warning This method *DOES NOT* verify that the Kinvey Service is active, only that a network request will leave the phone.
- @return YES if the network is reachable, NO if the network is not reachable.
- @deprecatedIn 1.16.0
- */
-+ (BOOL)networkIsReachable KCS_DEPRECATED(Use KCSClient Reachability Object Instead, 1.16.0);
-
-/*! Verify the device will be able to access a network, and that the Kinvey service is a known address
- 
- This method returns true if the device will be able to make network requests, and if the network
- knows how to find the Kinvey Service. This checks to make sure that the device is not in Airplane mode,
- has the radios turned on, has a WiFi connection, etc.  It also checks that we can resolve the Kinvey
- service.  It does not check to see if we can communicate with Kinvey, only that
- a network connection is possible.
- 
- @warning This method *DOES NOT* verify that the Kinvey Service is active, only that a network request will leave the phone
- and be sent to Kinvey.
- @return YES if the network is reachable and Kinvey is known, NO if the network is not reachable or Kinvey is not known.
- @deprecatedIn 1.16.0
- */
-+ (BOOL)kinveyServiceIsReachable KCS_DEPRECATED(Use KCSClient Reachability Object Instead, 1.16.0);
-
-
-/*! Verify the Kinvey Service is active
-
- This method checks to see if the Kinvey service is available and accepting requests.  The callback is called
- with the results of the status check.
-
- @param completionAction The callback to perform on completion.
- */
-+ (void)checkKinveyServiceStatusWithAction:(KCSPingBlock)completionAction;
 
 ///---------------------------------------------------------------------------------------
 /// @name Pinging the Kinvey Service
@@ -113,7 +72,6 @@ typedef void(^KCSPingBlock)(KCSPingResult *result);
  This method makes a request on Kinvey and uses the callback to indicate the completion, if you
  wish to check to see if the Kinvey Service is alive and responding, please use checkKinveyServiceStatusWithAction:
  
- @warning This request is authenticated, so indirectly verifies *all* steps that are required to talk to the Kinvey Service.
  @warning The results passed to completionAction have changed, to get the old style, initialzie Kinvey
  with the KCS_USE_OLD_PING_STYLE_KEY (or, if you're using a plist, "kcsPingStyle") key set to YES in your options.
  @param completionAction The callback to perform on completion.

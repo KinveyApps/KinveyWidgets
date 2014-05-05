@@ -426,7 +426,7 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
             bottom -= 36.;
         }
         CGFloat midRemaining = CGRectGetMaxY(lineFrame) + (bottom - CGRectGetMaxY(lineFrame)) / 2.;
-        uint buttonCount = _socialLogins.count;
+        NSUInteger buttonCount = _socialLogins.count;
         CGFloat socialAreaHeight = buttonCount * userFrame.size.height + (buttonCount - 1) * kWidgetMargin;
         CGFloat socialY = midRemaining - socialAreaHeight / 2.;
         userFrame.origin.y = socialY - kWidgetMargin - userFrame.size.height;

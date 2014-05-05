@@ -2,7 +2,7 @@
 //  KinveyUser.h
 //  KinveyKit
 //
-//  Copyright (c) 2008-2013, Kinvey, Inc. All rights reserved.
+//  Copyright (c) 2008-2014, Kinvey, Inc. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -20,9 +20,9 @@
 #import "KinveyPersistable.h"
 #import "KinveyEntity.h"
 #import "KinveyHeaderInfo.h"
+#import "KCSBlockDefs.h"
 
 @class KCSCollection;
-@class KCSRESTRequest;
 @class KCSMetadata;
 
 // Need to predefine our classes here
@@ -30,6 +30,7 @@
 @class KCSUserResult;
 
 typedef enum KCSUserActionResult : NSInteger {
+    KCSUserNoInformation = -1,
     KCSUserCreated = 1,
     KCSUserDeleted = 2,
     KCSUserFound = 3,
@@ -134,31 +135,47 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
 ///---------------------------------------------------------------------------------------
 /// @name User Information
 ///---------------------------------------------------------------------------------------
+
 /*! Username of this Kinvey User. Publicly queryable be default. */
 @property (nonatomic, copy) NSString *username;
-/*! Password of this Kinvey User */
-@property (nonatomic, copy) NSString *password;
+
+/*! Password of this Kinvey User
+ @deprecatedIn 1.25.0 
+ @deprecated password is no longer stored
+ */
+@property (nonatomic, copy) NSString *password KCS_DEPRECATED(Password no longer stored in library, 1.25.0);
+
 /** The Kinvey user collection id for the user */
 @property (nonatomic, strong) NSString *userId;
+
 /*! Device Tokens of this User */
 @property (nonatomic, readonly, strong) NSMutableSet *deviceTokens;
-/*! Session Auth Token, if available */
-@property (nonatomic, copy) NSString *sessionAuth;
-/*! Access Control Metadata of this User 
+
+/*! Session Auth Token, if available
+ @deprecated token now lives in the keychain
+ @deprecatedIn 1.25.0
+ */
+@property (nonatomic, copy) NSString *sessionAuth  KCS_DEPRECATED(Token no longer stored with the user object, 1.25.0);;
+
+/*! Access Control Metadata of this User
  @see KCSPersistable
  */
 @property (nonatomic, strong) KCSMetadata *metadata;
+
 /** Optional surname for the user. Publicly queryable be default. */
 @property (nonatomic, copy) NSString *surname;
+
 /** Optional given (first) name for the user. Publicly queryable be default. */
 @property (nonatomic, copy) NSString *givenName;
+
 /** Optional email address for the user. Publicly queryable be default. */
 @property (nonatomic, copy) NSString *email;
+
 /** Checks if the user has verified email (by clicking the link in the email sent via `sendEmailConfirmationForUser:withCompletionBlock:`).
  @see sendEmailConfirmationForUser:withCompletionBlock:
  @since 10.1.0
  */
-@property (nonatomic, readonly) BOOL emailVerified;
+@property (nonatomic) BOOL emailVerified;
 
 /** Checks if credentials have been stored in the keychain. 
  
@@ -182,21 +199,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
 ///---------------------------------------------------------------------------------------
 /// @name KinveyKit Internal Services
 ///---------------------------------------------------------------------------------------
-/*! Initialize the "Current User" for Kinvey
- 
- This will cause the system to initialize the "Current User" to the known "primary" user for the device
- should no user exist, one is created.  If a non-nil request is provided, the request will be started after
- user authentication.
- 
- @warning This routine is not intended for application developer use, this routine is used by the library runtime to ensure all requests are authenticated.
- 
- @warning This is a *blocking* routine and will block on other threads that are authenticating.  There is a short timeout before authentication failure.
- 
- @param request The REST request to perform after authentication.
- @deprecatedIn 1.19.0
-*/
-- (void)initializeCurrentUserWithRequest: (KCSRESTRequest *)request KCS_DEPRECATED(do not call this directly, 1.19.0);
-
 /*! Initialize the "Current User" for Kinvey
  
  This will cause the system to initialize the "Current User" to the known "primary" user for the device
@@ -226,8 +228,19 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
  * @param username The username to create, if it already exists on the back-end an error will be returned.
  * @param password The user's password
  * @param completionBlock The callback to perform when the creation completes (or errors).
+ @deprecated Use +[KCSUser userWithUsername:password:fieldsAndValues:withCompletionBlock:] instead with `nil`.
+ @deprecatedIn 1.25.0
  */
-+ (void) userWithUsername:(NSString *)username password:(NSString *)password withCompletionBlock:(KCSUserCompletionBlock)completionBlock;
++ (void) userWithUsername:(NSString *)username password:(NSString *)password withCompletionBlock:(KCSUserCompletionBlock)completionBlock KCS_DEPRECATED(Use +[KCSUser userWithUsername:password:fieldsAndValues:withCompletionBlock:] instead, 1.25.0);
+
+/** Create a new Kinvey user and register them with the backend.
+ * @param username The username to create, if it already exists on the back-end an error will be returned.
+ * @param password The user's password
+ * @param completionBlock The callback to perform when the creation completes (or errors).
+ @param fieldsAndValues additional data to populate the user object, such as `KCSUserAttributeSurname`, `KCSUserAttributeGivenname` and `KCSUserAttributeEmail`. Can be `nil`.
+ @since 1.25.0
+ */
++ (void) userWithUsername:(NSString *)username password:(NSString *)password fieldsAndValues:(NSDictionary*)fieldsAndValues withCompletionBlock:(KCSUserCompletionBlock)completionBlock;
 
 /** Creates a unique user with a default username and password.
  
@@ -235,8 +248,21 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
  
  @param completionBlock The callback to perform when the creation completes (or errors).
  @since 1.19.0
+ @deprecated Use +[KCSUser createAutogeneratedUser:completion:] instead with `nil`.
+ @deprecatedIn 1.25.0
  */
-+ (void) createAutogeneratedUser:(KCSUserCompletionBlock)completionBlock;
++ (void) createAutogeneratedUser:(KCSUserCompletionBlock)completionBlock KCS_DEPRECATED(Use +[KCSUser createAutogeneratedUser:completion:] instead, 1.25.0);
+
+/** Creates a unique user with a default username and password.
+ 
+ When complete, this method will register the new user as the `activeUser`.
+ 
+ @param completionBlock The callback to perform when the creation completes (or errors).
+ @param fieldsAndValues additional data to populate the user object, such as `KCSUserAttributeSurname`, `KCSUserAttributeGivenname` and `KCSUserAttributeEmail`. Can be `nil`.
+ @since 1.25.0
+ */
++ (void) createAutogeneratedUser:(NSDictionary *)fieldsAndValues completion:(KCSUserCompletionBlock)completionBlock;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Managing the Current User
@@ -263,18 +289,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
 + (void)loginWithUsername: (NSString *)username
                  password: (NSString *)password 
       withCompletionBlock:(KCSUserCompletionBlock)completionBlock;
-
-/*! Login a user with a Facebook Access Token.
- 
- This creates a new Kinvey user or logs in with an existing one associated with the supplied Facebook access token. Kinvey will verify the token with Facebook on the server and return an authorized Kinvey user if the process is sucessful.
- 
- To obtain the access token, download the Facebook SDK (https://developers.facebook.com/ios/) and follow the instructions for session log-in.
- @since 1.7
- @deprecated 1.9 use loginWithWithSocialIdentity:accessDictionary:withCompletionBlock instead
- @param accessToken the `access_token` provided by Facebook.
- @param completionBlock the callback when the login completes or errors out.
- */
-+ (void)loginWithFacebookAccessToken:(NSString*)accessToken withCompletionBlock:(KCSUserCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE; 
 
 /** Login a user with social network access information.
  
@@ -303,15 +317,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
  */
 + (void)loginWithSocialIdentity:(KCSUserSocialIdentifyProvider)provider accessDictionary:(NSDictionary*)accessDictionary withCompletionBlock:(KCSUserCompletionBlock)completionBlock;
 
-
-+ (void)loginWithWithSocialIdentity:(KCSUserSocialIdentifyProvider)provider accessDictionary:(NSDictionary*)accessDictionary withCompletionBlock:(KCSUserCompletionBlock)completionBlock KCS_DEPRECATED(Typo in name- use loginWithSocialIdentity:accessDictionary:withCompletionBlock instead, 1.11.0);
-
-/*! Removes a user and their data from Kinvey
- * @param delegate The delegate to inform once the action is complete.
- * @deprecatedIn 1.19.0
-*/
-- (void)removeWithDelegate: (id<KCSPersistableDelegate>)delegate KCS_DEPRECATED(use removeWithCompletionBlock: instead, 1.19.0);
-
 /*! Removes a user and their data from Kinvey
  * @param completionBlock The block that is called when operation is complete or fails.
  */
@@ -325,16 +330,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
 /// @name Updating the user object
 ///---------------------------------------------------------------------------------------
                                                                                                                                                  
-/*! Load the data for the given user, user must be logged-in.
- *
- * @param delegate The delegate to inform once the action is complete.
- * @deprecatedIn 1.19.0
- */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-- (void)loadWithDelegate: (id<KCSEntityDelegate>)delegate;
-#pragma clang diagnostic pop
-
 /** Update the user object from the server.
  
  The block will return and automatically update the `activeUser`.
@@ -346,13 +341,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
  */
 - (void) refreshFromServer:(KCSCompletionBlock)completionBlock;
                                                                                                                                                  
-/*! Called to update the Kinvey state of a user.
- * @param delegate The delegate to inform once the action is complete.
- * @deprecatedIn 1.19.0
- */
-- (void)saveWithDelegate: (id<KCSPersistableDelegate>)delegate KCS_DEPRECATED(Use saveWithCompletionBlock: instead, 1.19.0);
-
-
 /** Called to update the Kinvey state of a user.
   @param completionBlock block called upon completion or error
   @since 1.11.0
@@ -379,14 +367,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
  */
 
 - (void) removeValueForAttribute:(NSString*)attribute;
-
-/*! Called when a User Request completes successfully.
- 
- @return The KCSCollection to access users.
- @deprecatedIn 1.10.2
- */
-- (KCSCollection *)userCollection KCS_DEPRECATED(Use [KCSCollection userCollection] instead., 1.10.2);
-
 
 /** Update a user's password and save the user object to the backend. 
  @param newPassword the new password for the user

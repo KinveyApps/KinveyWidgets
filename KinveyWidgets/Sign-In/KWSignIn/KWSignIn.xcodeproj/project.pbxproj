@@ -61,6 +61,7 @@
 		2777E7B7162F3BD800684C96 /* UILabel+MKHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2777E7AD162F3BD800684C96 /* UILabel+MKHelpers.m */; };
 		27CF826417D64F4100B5B0CB /* KinveyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CF826317D64F4100B5B0CB /* KinveyKit.framework */; };
 		27CF826617D64F7200B5B0CB /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CF826517D64F7200B5B0CB /* FacebookSDK.framework */; };
+		27DA42511917D81000A21E5A /* MD5Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DA42501917D81000A21E5A /* MD5Helpers.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,6 +141,8 @@
 		2777E7AD162F3BD800684C96 /* UILabel+MKHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+MKHelpers.m"; sourceTree = "<group>"; };
 		27CF826317D64F4100B5B0CB /* KinveyKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KinveyKit.framework; path = ../../../Kinvey/KinveyKit.framework; sourceTree = "<group>"; };
 		27CF826517D64F7200B5B0CB /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		27DA424F1917D81000A21E5A /* MD5Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD5Helpers.h; sourceTree = "<group>"; };
+		27DA42501917D81000A21E5A /* MD5Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD5Helpers.m; sourceTree = "<group>"; };
 		27E4B2F01631ABC800D10F16 /* KWSignInViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWSignInViewControllerDelegate.h; path = ../KWSignInViewControllerDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -374,6 +377,8 @@
 				2777E7A6162F3BD800684C96 /* NSArray+MKHelpers.m */,
 				2777E7A7162F3BD800684C96 /* NSString+MKHelpers.h */,
 				2777E7A8162F3BD800684C96 /* NSString+MKHelpers.m */,
+				27DA424F1917D81000A21E5A /* MD5Helpers.h */,
+				27DA42501917D81000A21E5A /* MD5Helpers.m */,
 			);
 			name = "Foundation Categories";
 			path = "../../iOS-UI-Utils/Classes/Foundation Categories";
@@ -492,6 +497,7 @@
 				2777E798162F3BA900684C96 /* UIColor+KinveyWidgets.m in Sources */,
 				2777E799162F3BA900684C96 /* KWGradientView.m in Sources */,
 				2777E79A162F3BA900684C96 /* KWLineView.m in Sources */,
+				27DA42511917D81000A21E5A /* MD5Helpers.m in Sources */,
 				2777E7B0162F3BD800684C96 /* MKGradientButton.m in Sources */,
 				2777E7B2162F3BD800684C96 /* MKCGTypeHelpers.m in Sources */,
 				2777E7B4162F3BD800684C96 /* NSArray+MKHelpers.m in Sources */,
@@ -534,6 +540,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

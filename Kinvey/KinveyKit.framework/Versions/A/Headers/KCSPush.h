@@ -21,13 +21,6 @@
 
 #import "KinveyHeaderInfo.h"
 
-/** The app's mode (in development or deployed to the store or ad-hoc) */
-typedef enum KCS_PUSH_MODE : NSInteger {
-    /** for use while the app is in development */
-    KCS_PUSHMODE_DEVELOPMENT,
-    /** for use when the app is deployed */
-    KCS_PUSHMODE_PRODUCTION
-} KCS_PUSH_MODE KCS_DEPRECATED(push mode is all server-side now, 1.19.0);
 
 /*! Push Service (APNS) Helper Container
 
@@ -55,43 +48,6 @@ typedef enum KCS_PUSH_MODE : NSInteger {
 /// @name Startup / Shutdown
 ///---------------------------------------------------------------------------------------
 
-/*! Start the Push Service
- 
- This routine is used to register with the Kinvey Push service (not the same as registering with APNS)
- and to prepare to receive notifications.  This handles device management and user management.
- 
- To use this routine, place a call to this in the applicationDidLoad:withOptions method in the App Delegate.
- `[[KCSPush sharedPush] onLoadHelper:options error:error];`
- 
- Where options (documented in KCSClient) contains the Keys for the Push service.
- 
- @warning Push notifications will not work if this method has not been called.
- 
- @param options The options dictionary (see KCSClient) that contains the settings for the push service.
- @param error The error if this method fails
- @return `NO` if the push notifications are not able to be set-up correctly. Check the out error for possible reasons.
- @since 1.9
- @deprecated use +[KCSPush initializePushWithPushKey:pushSecret:mode:enabled:] instead
- @deprecatedIn 1.17.0
- */
-- (BOOL) onLoadHelper:(NSDictionary *)options error:(NSError**)error KCS_DEPRECATED(use +registerForPush instead, 1.17.0);
-
-/** Start the Push Service
- 
- This routine is used to register with the Kinvey Push service (not the same as registering with APNS)
- and to prepare to receive notifications.  This handles device management and user management.
- 
- To use this routine, place a call to this in the applicationDidLoad:withOptions method in the App Delegate.
- 
- @warning Push notifications will not work if this method has not been called.
- @param pushKey The "Push Key" as listed in the Push Configuration in the Kinvey Console
- @param pushSecretKey The "Push Secret" as listed in the Push Configuration in the Kinvey Console
- @param pushMode puts the app in development or production. This must match the setting in the Kinvey console. 
- @param enabled should be `YES` to enable push, set to `NO` to temporarily disable push
- @since 1.17.0
- @deprecatedIn 1.19.0
- */
-+ (void) initializePushWithPushKey:(NSString*)pushKey pushSecret:(NSString*)pushSecretKey mode:(KCS_PUSH_MODE)pushMode enabled:(BOOL)enabled KCS_DEPRECATED(use +registerForPush instead, 1.19.0);
 
 /** Start the Push Service
  
@@ -101,6 +57,17 @@ typedef enum KCS_PUSH_MODE : NSInteger {
  @since 1.19.0
  */
 + (void) registerForPush;
+
+
+/** Removes the device token from the active user. 
+ 
+ This requires a sucessful call to the Kinvey server.
+ 
+ @param completionBlock called when the request to Kinvey completes. If success is YES, then the token was removed.
+ @since 1.26.6
+ */
+- (void) unRegisterDeviceToken:(void (^)(BOOL success, NSError* error))completionBlock;
+
 
 /*! Clean-up Push Service
  
@@ -153,24 +120,6 @@ typedef enum KCS_PUSH_MODE : NSInteger {
  */
 - (void) registerForRemoteNotifications;
 
-/*! Register device for remote notifications
- 
- The Kinvey library requires information from the registration of remote notifications to perform several tasks.
- This information needs to be forwarded to the library when received by the App Delegate.
- 
- Call this in your implementation for handling registration:
-
-    - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-        [[KCSPush sharedPush] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-        // Additional registration goes here (if neeeded).
-    }
-
- 
- @param application The application sending this message.
- @param deviceToken The device token of the device this instance of the application is running on.
- @deprecatedIn 1.19.0
- */
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken KCS_DEPRECATED(Use +application:didRegisterForRemoteNotificationsWithDeviceToken:completionBlock: instead to capture registration state, 1.19.0);
 
 /*! Register device for remote notifications
  
@@ -187,7 +136,7 @@ typedef enum KCS_PUSH_MODE : NSInteger {
  
  @param application The application sending this message.
  @param deviceToken The device token of the device this instance of the application is running on.
- @param completionBlock called after the token is registered on the server. `success` will be no if there is active user or the registration fails. If there is a user and the registration fails, then there will be an error object. In the error case, the request should be tried again later if it was a network error.
+ @param completionBlock called after the token is registered on the server. `success` will be no if there is no active user at the time, or if the registration fails. If there is a user and the registration fails, then there will be an error object. In the error case, the request should be tried again later if it was a network error.
  
  @since 1.19.0
  */

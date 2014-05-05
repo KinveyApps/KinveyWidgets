@@ -18,7 +18,7 @@
 
 #import <Foundation/Foundation.h>
 
-/*! Category to add some basic URL Query Support to NSStrings
+/* Category to add some basic URL Query Support to NSStrings
 
  This category adds the ability to turn a string into a URL with query parameters, as well as the ability to
  add queries to an existing string representation of a URL.
@@ -34,7 +34,7 @@
  */
 @interface NSString (KinveyAdditions)
 
-/*! Generate a NSURL by appending a query to an existing String
+/* Generate a NSURL by appending a query to an existing String
  
     Do not add your own '?' or '&' to the front of the query unless you
     need to have that value in the query string.  Otherwise you
@@ -46,30 +46,30 @@
  */
 - (NSURL *)URLByAppendingQueryString:(NSString *)queryString;
 
-/*! Generate a string by appending a query string.
+/* Generate a string by appending a query string.
     @param queryString The string to append as a query
     @return The newly created string.
  */
 - (NSString *)stringByAppendingQueryString:(NSString *)queryString;
 
-/*! Generate a string by appending a properly percent encoded string.
+/* Generate a string by appending a properly percent encoded string.
  @param string The string (typically a URL) that needs to be percent encoded.
  @return The newly created string.
  */
 - (NSString *)stringByAppendingStringWithPercentEncoding:(NSString *)string;
 
-/*! Generate a string by appending a properly percent encoded string.
+/* Generate a string by appending a properly percent encoded string.
  @param string The string (typically a URL) that needs to be percent encoded.
  @return The newly created string.
  */
 + (NSString *)stringByPercentEncodingString:(NSString *)string;
 
-/*! Tests that the substring is somewhere inside the string
+/* Tests that the substring is somewhere inside the string
  @param substring the string to look for inside this one.
  */
 - (BOOL) containsStringCaseInsensitive:(NSString*)substring;
 
-/** Creates a a UUID string (using CFUUIDCreate)
+/* Creates a a UUID string (using CFUUIDCreate)
  */
 + (instancetype) UUID;
 

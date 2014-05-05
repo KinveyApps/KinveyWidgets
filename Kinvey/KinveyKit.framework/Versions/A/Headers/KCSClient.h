@@ -2,7 +2,7 @@
 //  KCSClient.h
 //  KinveyKit
 //
-//  Copyright (c) 2008-2013, Kinvey, Inc. All rights reserved.
+//  Copyright (c) 2008-2014, Kinvey, Inc. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -21,33 +21,9 @@
 
 #define MINIMUM_KCS_VERSION_SUPPORTED @"3.0"
 
-@class KCSAnalytics;
 @class UIApplication;
-@class KCSCollection;
 @class KCSUser;
 @class KCSReachability;
-@protocol KCSStore;
-@class KCSAuthHandler;
-
-
-// Keys for options hash
-/** App Key plist key: "KCS_APP_KEY" */
-KCS_CONSTANT KCS_APP_KEY;
-/** App Secret plist key: "KCS_APP_SECRET" */
-KCS_CONSTANT KCS_APP_SECRET;
-
-/** Timeout plist key: "KCS_CONNECTION_TIMEOUT" */
-KCS_CONSTANT KCS_CONNECTION_TIMEOUT;
-/** NSNumber representation of NSURLCachePolicy */
-KCS_CONSTANT KCS_URL_CACHE_POLICY;
-/** Parsing format for dates handled by the system. ISO6801 format */
-KCS_CONSTANT KCS_DATE_FORMAT;
-/** This object shoul implement the `KCSLogSink` protocol. Use this along with +[KinveyKit configureLoggingWithNetworkEnabled:debugEnabled:traceEnabled:warningEnabled:errorEnabled:] to send log messages to a custom sink.*/
-KCS_CONSTANT KCS_LOG_SINK;
-
-KCS_CONSTANT KCS_SERVICE_HOST;
-
-#define KCS_USE_OLD_PING_STYLE_KEY @"kcsPingStyle"
 
 #define KCS_FACEBOOK_APP_KEY @"facebookKey"
 #define KCS_TWITTER_CLIENT_KEY @"twitterKey"
@@ -60,7 +36,14 @@ KCS_CONSTANT KCS_SERVICE_HOST;
 #define KCS_SALESFORCE_REFRESH_TOKEN @"refresh_token"
 #define KCS_SALESFORCE_CLIENT_ID @"client_id"
 
-#define KCS_CACHES_USE_V2 @"kinvey.usev2caching"
+/** Notification for when a network operation starts 
+ @since 1.26.0
+ */
+KCS_CONSTANT KCSNetworkConnectionDidStart;
+/** Notification for when a network operation ends 
+ @since 1.26.0
+ */
+KCS_CONSTANT KCSNetworkConnectionDidEnd;
 
 @class KCSClientConfiguration;
 
@@ -72,10 +55,9 @@ KCS_CONSTANT KCS_SERVICE_HOST;
  @warning Note that this class is a singleton and the single method to get the instance is @see sharedClient.
 
  */
-@interface KCSClient : NSObject <NSURLConnectionDelegate>
+@interface KCSClient : NSObject
 
-#pragma mark -
-#pragma mark Properties
+#pragma mark - Properties
 
 ///---------------------------------------------------------------------------------------
 /// @name Application Information
@@ -92,8 +74,12 @@ KCS_CONSTANT KCS_SERVICE_HOST;
 ///---------------------------------------------------------------------------------------
 /// @name Library Information
 ///---------------------------------------------------------------------------------------
-/*! User Agent string returned to Kinvey (used automatically, provided for reference. */
-@property (nonatomic, copy, readonly) NSString *userAgent;
+
+/*! User Agent string returned to Kinvey (used automatically, provided for reference. 
+ @deprecated no longer used
+ @deprecatedIn 1.26.2
+ */
+@property (nonatomic, copy, readonly) NSString *userAgent KCS_DEPRECATED(no longer used in the client, 1.26.2);
 
 /*! Library Version string returned to Kinvey (used automatically, provided for reference. */
 @property (nonatomic, copy, readonly) NSString *libraryVersion;
@@ -141,14 +127,6 @@ KCS_CONSTANT KCS_SERVICE_HOST;
  @deprecatedIn 1.19.0
  */
 @property (nonatomic, strong) KCSUser *currentUser KCS_DEPRECATED(Use [KCSuser activeUser] instead, 1.19.0);
-
-
-///---------------------------------------------------------------------------------------
-/// @name Analytics
-///---------------------------------------------------------------------------------------
-
-/*! The suite of Kinvey Analytics Services */
-@property (nonatomic, readonly) KCSAnalytics *analytics;
 
 ///---------------------------------------------------------------------------------------
 /// @name Data Type Support
@@ -235,44 +213,6 @@ KCS_CONSTANT KCS_SERVICE_HOST;
 - (void) initializeWithConfiguration:(KCSClientConfiguration*)configuration;
 
 
-#pragma mark Client Interface
-
-///---------------------------------------------------------------------------------------
-/// @name Collection Interface
-///---------------------------------------------------------------------------------------
-/*! Return the collection object that a specific entity will belong to
- 
- All acess to data items stored on Kinvey must use a collection, to get access to a collection, use this routine to gain access to a collection.
- Simply provide a name and the class of an object that you want to store and you'll be returned the collection object to use.
- 
- @param collection The name of the collection that will contain the objects.
- @param collectionClass A class that represents the objects of this collection.
- @deprecated 1.14.0
- @returns The collection object.
-*/
-- (KCSCollection *)collectionFromString: (NSString *)collection withClass: (Class)collectionClass KCS_DEPRECATED(dont use method--create the class directly, 1.14.0);;
-
-///---------------------------------------------------------------------------------------
-/// @name Store Interface
-///---------------------------------------------------------------------------------------
-//@deprecated 1.14.0
-- (id<KCSStore>)store: (NSString *)storeType forResource: (NSString *)resource KCS_DEPRECATED(dont use method--create the class directly, 1.14.0);
-
-//@deprecated 1.14.0
-- (id<KCSStore>)store: (NSString *)storeType forResource: (NSString *)resource withAuthHandler: (KCSAuthHandler *)authHandler KCS_DEPRECATED(dont use method--create the class directly, 1.14.0);
-
-//@deprecated 1.14.0
-- (id<KCSStore>)store: (NSString *)storeType
-          forResource: (NSString *)resource
-            withClass: (Class)collectionClass KCS_DEPRECATED(dont use method--create the class directly, 1.14.0);
-
-//@deprecated 1.14.0
-- (id<KCSStore>)store: (NSString *)storeType
-          forResource: (NSString *)resource
-            withClass: (Class)collectionClass
-      withAuthHandler: (KCSAuthHandler *)authHandler KCS_DEPRECATED(dont use method--create the class directly, 1.14.0);
-
-
 ///---------------------------------------------------------------------------------------
 /// @name Logging Control
 ///---------------------------------------------------------------------------------------
@@ -316,9 +256,35 @@ KCS_CONSTANT KCS_SERVICE_HOST;
 ///---------------------------------------------------------------------------------------
 /// @name Utilities
 ///---------------------------------------------------------------------------------------
-/** Clears out all the caches maintained by the library. 
+
+/** Clears out all the caches maintained by the library.
  
  Right now the only caches used are those created by `KCSCachedStore` to cache app data. 
  */
 - (void) clearCache;
+
+///---------------------------------------------------------------------------------------
+/// @name Data Protection
+///---------------------------------------------------------------------------------------
+
+/** Helper method to preform data protection activities when the device is unlocked. 
+ 
+ This __MUST__ be forwarded from your application delegate.
+ 
+ @param application The singleton app object.
+ @see applicationProtectedDataWillBecomeUnavailable:
+ @since 1.24.0
+ */
+- (void)applicationProtectedDataDidBecomeAvailable:(UIApplication *)application;
+
+/** Helper method to preform data protection activities when the device is locked.
+ 
+ This __MUST__ be forwarded from your application delegate.
+ 
+ @param application The singleton app object.
+ @see applicationProtectedDataDidBecomeAvailable:
+ @since 1.24.0
+ */
+- (void)applicationProtectedDataWillBecomeUnavailable:(UIApplication *)application;
+
 @end

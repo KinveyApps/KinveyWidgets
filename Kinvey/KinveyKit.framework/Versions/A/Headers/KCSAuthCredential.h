@@ -2,7 +2,6 @@
 //  KCSAuthCredential.h
 //  KinveyKit
 //
-//  Created by Brian Wilson on 1/17/12.
 //  Copyright (c) 2012-2013 Kinvey. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at

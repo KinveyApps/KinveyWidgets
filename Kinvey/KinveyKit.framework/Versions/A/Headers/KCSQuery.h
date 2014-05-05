@@ -51,10 +51,7 @@ typedef enum : NSInteger
     // Array Operators
     kKCSAll = 8192,
     kKCSSize = 8193,
-
-    // Arbitrary Operators
-    kKCSWhere = 16384,
-    
+   
     // Internal Operators
     kKCSWithin = 17000,
     kKCSMulti = 17001,
@@ -63,16 +60,6 @@ typedef enum : NSInteger
     kKCSType = 17004
     
 } KCSQueryConditional;
-
-/** Options for regular expression matching in queries */
-typedef enum  {
-    kKCSRegexepDefault = 0, /** Default Options */
-    kKCSRegexpCaseInsensitive = 1 << 0, /** Match letters in the pattern independent of case. */
-    kKCSRegexpAllowCommentsAndWhitespace  = 1 << 1, /** Ignore whitespace and #-prefixed comments in the pattern. */
-    kKCSRegexpDotMatchesAll = 1 << 3, /** Allow . to match all characters, including newlines */
-    kKCSRegexpAnchorsMatchLines = 1 << 4, /** Allow ^ and $ to match the start and end of lines. */
-} KCSRegexpQueryOptions;
-
 
 // DO NOT CHANGE THE VALUES IN THIS ENUM.  They're meaningful to the implementation of this class
 typedef enum {
@@ -223,6 +210,7 @@ typedef enum {
 ///---------------------------------------------------------------------------------------
 /// @name Creating Queries
 ///---------------------------------------------------------------------------------------
+
 /*! Create a new Simple Query.
  
  This is the simplest query constructor.  This will build a query that matches a single value against a property/field using the given
@@ -292,25 +280,6 @@ typedef enum {
  */
 + (KCSQuery *)queryNegatingQuery:(KCSQuery *)query;
 
-/*! Create a new query looking for an unset value in a field.
- 
- This filters all entries that do not have a value set for the field. I.e. loaded classes will have 'nil' set for that property.
- 
- @param field The field in Kinvey to query on.
-
- @return The new KCSQuery object (autoreleased).
- @deprecated This method is ambiguous and is superceeded by the following:
- 
-    * To find values that have been set to `null` : [KCSQuery queryOnField:field withExactMatchForValue:[NSNull null]];
-    * To find values that empty or unset: [KCSQuery queryForEmptyValueInField:];
-    * To find either `null` or empty or unset: [KCSQuery queryForEmptyOrNullValueInField:];
- 
- @deprecatedIn 1.11.0
- @see queryForEmptyOrNullValueInField:
- @see queryForEmptyValueInField:
- */
-+ (KCSQuery *)queryForNilValueInField: (NSString *)field KCS_DEPRECATED(queryForNilValueInField is ambiguous; use exact match on NSNull; queryForEmptyValueInField; or queryForEmptyOrNullValueInField, 1.11.0);
-
 /** Create a query that matches entities where the field is empty or unset.
  
  @param field the backend field to query.
@@ -335,38 +304,18 @@ typedef enum {
  */
 + (instancetype)query;
 
-/*! Creates a regular expression query on a field, with options.
- 
-  This query will return entities where the field values match the regular expression. By default, the match is case-sensitive and new-lines do not match anchors.
- 
- Available options are (and can be or'ed together):
- 
- * `kKCSRegexepDefault` - Default Options
- * `kKCSRegexpCaseInsensitive` - Match letters in the pattern independent of case.
- * `kKCSRegexpAllowCommentsAndWhitespace` - Ignore whitespace and #-prefixed comments in the pattern.
- * `kKCSRegexpDotMatchesAll` - Allow . to match all characters, including newlines.
- * `kKCSRegexpAnchorsMatchLines` - Allow ^ and $ to match the start and end of lines.
- 
- @param field The field in Kinvey to query on.
- @param expression the regular expression string or `NSRegularExpression` object. 
- @param options regular expression options. This will override any options in a provided `NSRegularExpression` expression.
- @see queryOnField:withRegex:
- @return The new KCSQuery object (autoreleased).
- @since 1.8
- */
-+ (KCSQuery *)queryOnField:(NSString*)field withRegex:(id)expression options:(KCSRegexpQueryOptions)options;
 
 /*! Creates a regular expression query on a field.
  
  This query will return entities where the field values match the regular expression. By default, the match is case-sensitive and new-lines do not match anchors. 
  
  @param field The field in Kinvey to query on.
- @param expression the regular expression string or `NSRegularExpression` object. If using a NSRegularExpression, this will its options, where available. 
- @see queryOnField:withRegex:options:
+ @param pattern the regular expression string starting with `^`.
  @return The new KCSQuery object (autoreleased).
  @since 1.8
+ @updated 1.23.0
  */
-+ (KCSQuery *)queryOnField:(NSString*)field withRegex:(id)expression;
++ (KCSQuery *)queryOnField:(NSString*)field withRegex:(NSString*)pattern;
 
 /*! Copy factory
  
@@ -475,8 +424,6 @@ typedef enum {
 - (KCSQuery *)queryByJoiningQuery: (KCSQuery *)query usingOperator: (KCSQueryConditional)joiningOperator;
 
 
-
-
 ///---------------------------------------------------------------------------------------
 /// @name Validating Queries
 ///---------------------------------------------------------------------------------------
@@ -521,6 +468,7 @@ typedef enum {
 ///---------------------------------------------------------------------------------------
 /// @name Modifying Queries
 ///---------------------------------------------------------------------------------------
+
 /*! The current limit modifier, defaults to nil.  Set to nil to clear the limit modifier. */
 @property (nonatomic, strong) KCSQueryLimitModifier *limitModifer;
 /*! The current skip modifier, defaults to nil.  Set to nil to clear the skip modifier. */

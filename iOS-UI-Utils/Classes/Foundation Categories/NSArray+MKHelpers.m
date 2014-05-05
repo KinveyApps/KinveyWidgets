@@ -23,9 +23,9 @@
 
 - (NSArray*) reverseArray
 {
-    NSUInteger count = self.count;
+    NSInteger count = self.count;
     NSMutableArray* ret = [NSMutableArray arrayWithCapacity:count];
-    for (int i = count - 1; i >= 0; i--) {
+    for (NSInteger i = count - 1; i >= 0; i--) {
         [ret addObject:[self objectAtIndex:i]];
     }
     return ret;

@@ -2,7 +2,7 @@
 //  KinveyCore.h
 //  KinveyKit
 //
-//  Copyright (c) 2013 Kinvey. All rights reserved.
+//  Copyright (c) 2013-2014 Kinvey. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -21,5 +21,12 @@
 
 #import "KinveyHeaderInfo.h"
 #import "KinveyVersion.h"
+
+/// Configuration
+#pragma mark - Configuration
+
+#import "KCSPing2.h"
+#import "KCSClient2.h"
+#import "KCSClientConfiguration.h"
 
 #endif

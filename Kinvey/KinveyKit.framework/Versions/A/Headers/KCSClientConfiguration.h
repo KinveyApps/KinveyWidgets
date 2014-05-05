@@ -19,6 +19,59 @@
 
 #import <Foundation/Foundation.h>
 
+#import "KinveyHeaderInfo.h"
+
+// Keys for options hash
+/** App Key plist key: "KCS_APP_KEY" */
+KCS_CONSTANT KCS_APP_KEY;
+/** App Secret plist key: "KCS_APP_SECRET" */
+KCS_CONSTANT KCS_APP_SECRET;
+
+/** Timeout plist key: "KCS_CONNECTION_TIMEOUT" */
+KCS_CONSTANT KCS_CONNECTION_TIMEOUT;
+/** NSNumber representation of NSURLCachePolicy */
+KCS_CONSTANT KCS_URL_CACHE_POLICY;
+/** Parsing format for dates handled by the system. ISO6801 format */
+KCS_CONSTANT KCS_DATE_FORMAT;
+/** This object shoul implement the `KCSLogSink` protocol. Use this along with +[KinveyKit configureLoggingWithNetworkEnabled:debugEnabled:traceEnabled:warningEnabled:errorEnabled:] to send log messages to a custom sink.*/
+KCS_CONSTANT KCS_LOG_SINK;
+
+// Data Protection
+// See the Apple Data Protection guide in the iOS Programming Guide : Advanced App Tricks for more information
+
+/** 
+ @since 1.24.0
+*/
+typedef enum KCSDataProtectionLevel : NSInteger {
+    KCSDataNoProtection, //no encryption
+    KCSDataComplete, //data is inaccessible when device locked
+    KCSDataCompleteUnlessOpen, //data is locked at first, but remains accessible while the file is open
+    KCSDataCompleteUntilFirstLogin, //data is locked until the device has been unlocked once after boot
+} KCSDataProtectionLevel;
+
+/** Set this to a KCSDataProtectionLevel combined with data protection entitlements and the appropriate app delegate methods allows your app to lock files managed by the file store, offline caches, and keychain. 
+ 
+    Default is KCSDataCompleteUntilFirstLogin.
+ @since 1.24.0
+ */
+KCS_CONSTANT KCS_DATA_PROTECTION_LEVEL;
+
+/**
+ @since 1.25.0
+ */
+KCS_CONSTANT KCS_USER_CLASS;
+
+/** Keep the user logged when the credentials become invalid.
+ 
+ By default if the user credentials change outside of the apps flow, such that the active user is no longer authorized to use the back-end, the activer user will be logged out. This is because the only way to get the new credentials is to log in, again. 
+ @since 1.25.0
+ */
+KCS_CONSTANT KCS_KEEP_USER_LOGGED_IN_ON_BAD_CREDENTIALS;
+
+
+KCS_CONSTANT KCS_SERVICE_HOST;
+
+
 /** Configuration wrapper for setting up a KCSClient. Configurations are adjustable at compile- or run-time. See the guides at http://devecenter.kinvey.com for how configurations work with app environments.
  
  @since 1.20.0

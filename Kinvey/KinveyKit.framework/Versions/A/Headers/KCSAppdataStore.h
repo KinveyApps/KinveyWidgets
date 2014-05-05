@@ -18,7 +18,7 @@
  
 #import <Foundation/Foundation.h>
 #import "KCSStore.h"
-#import "KCSOfflineSaveStore.h"
+#import "KCSBackgroundAppdataStore.h"
 
 @class KCSCollection;
 
@@ -35,7 +35,7 @@
 #define KCSStoreKeyCollectionName @"collectionName"
 
 /**
- KCSStore options dictionary key for the backing collection object class. This can be used instead of suppling a KCSStoreKeyResource. Use with KCSStoreKeyCollectionName. If a KCSStoreKeyCollectionName is supplied, but no KCSStoreKeyCollectionTemplateClass, NSMutableDictionary will be used by default.
+ KCSStore options dictionary key for the backing collection object class.  This can be used instead of suppling a KCSStoreKeyResource. Use with KCSStoreKeyCollectionName. If a KCSStoreKeyCollectionName is supplied, but no KCSStoreKeyCollectionTemplateClass, NSMutableDictionary will be used by default.
  
  @since 1.11.0
  */
@@ -52,9 +52,9 @@
  
  @see KCSCachedStore
  */
-@interface KCSAppdataStore : NSObject <KCSStore> 
+@interface KCSAppdataStore : KCSBackgroundAppdataStore
 
-@property (nonatomic, strong) KCSAuthHandler *authHandler;
+@property (nonatomic, strong) KCSAuthHandler *authHandler KCS_DEPRECATED(Auth handler not used, 1.22.0);
 
 
 /** Initialize an empty store with the given collections, options and the default authentication
@@ -81,10 +81,11 @@
  @param options A dictionary of options to configure the store. (Can be nil if there are no options)
  @param authHandler The Kinvey Authentication Handler used to authenticate backend requests.
  
- @see [KCSStore storeWithAuthHandler:withOptions:]
  @return An autoreleased empty store with configured options and given authentication.
+ @depcratedIn 1.22.0
+ @deprecated Use use storeWithCollection:options: instead
  */
-+ (instancetype)storeWithCollection:(KCSCollection*)collection authHandler:(KCSAuthHandler *)authHandler withOptions: (NSDictionary *)options;
++ (instancetype)storeWithCollection:(KCSCollection*)collection authHandler:(KCSAuthHandler *)authHandler withOptions: (NSDictionary *)options KCS_DEPRECATED(Auth handler not used--use storeWithCollection:options: instead, 1.22.0);
 
 ///---------------------------------------------------------------------------------------
 /// @name Querying/Fetching
@@ -145,7 +146,6 @@
  @param query the query to filter the elements
  @param countBlock the block that receives the response
  @since 1.15.0
- @see countWithBlock:
  */
 - (void)countWithQuery:(KCSQuery*)query completion:(KCSCountBlock)countBlock;
 @end

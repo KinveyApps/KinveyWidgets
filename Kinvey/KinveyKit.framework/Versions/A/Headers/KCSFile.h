@@ -24,7 +24,7 @@
 /**
  This class is a wrapper for file store information.
  */
-@interface KCSFile : NSObject <KCSPersistable>
+@interface KCSFile : NSObject <KCSPersistable, NSCoding, NSCopying>
 
 ///---
 /// @name Basic Info
@@ -45,15 +45,6 @@
 /** The file's type. 
  */
 @property (nonatomic, copy) NSString* mimeType;
-
-/** `YES` if the file is public on the Internet.
- 
- @bug You can comment this out with no side effect if you're not using this property. If you are, switch to `publicFile`.
- 
- @deprecated deprcated for 3p compatbility- use publicFile property instead
- @deprecatedIn 1.20.0
- */
-@property (nonatomic, copy) NSNumber* public KCS_DEPRECATED(Use publicFile property instead, 1.20.0);
 
 /** `YES` if the file is public on the Internet.
  @since 1.20.0
@@ -112,4 +103,7 @@
 
 + (instancetype) fileRef:(id)objectToRef collectionIdProperty:(NSString*)idStr;
 + (instancetype) fileRefFromKinvey:(NSDictionary*)kinveyDict class:(Class)klass;
+
+//internal use only, not always set; use `remoteURL` for downloads;
+@property (nonatomic, retain) NSString* downloadURL;
 @end

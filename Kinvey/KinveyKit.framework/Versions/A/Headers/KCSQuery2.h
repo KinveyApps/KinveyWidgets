@@ -2,8 +2,7 @@
 //  KCSQuery2.h
 //  KinveyKit
 //
-//  Created by Michael Katz on 5/23/13.
-//  Copyright (c) 2013 Kinvey. All rights reserved.
+//  Copyright (c) 2013-2014 Kinvey. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -17,11 +16,25 @@
 // contents is a violation of applicable laws.
 //
 
-@class KCSQuery2;
+@class KCSQuery;
+
+typedef enum KCSQueryErrors : NSInteger {
+    KCSqueryPredicateNotSupportedError = -3000
+    } KCSQueryErrors;
 
 @interface KCSQuery2 : NSObject
 
++ (instancetype) allQuery;
 + (instancetype) queryWithPredicate:(NSPredicate*)predicate error:(NSError**)error;
++ (instancetype) queryWithQuery1:(KCSQuery*)query;
+
+@property (nonatomic, copy) NSArray* sortDescriptors; //of NSSortDescriptors
+@property (nonatomic) NSUInteger limit;
+@property (nonatomic) NSUInteger offset;
+
+- (NSString *)escapedQueryString;
+
+- (NSPredicate*) predicate;
 
 
 @end

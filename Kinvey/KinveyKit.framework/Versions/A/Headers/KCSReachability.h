@@ -29,8 +29,6 @@ KCS_CONSTANT KCSReachabilityChangedNotification;
 /** Use to check the reachability of a particular host name. */
 + (instancetype) reachabilityWithHostName:(NSString*)hostName;
 
-// for testing
-+ (instancetype) unreachableReachability;
 
 /** The main direct test of reachability.
  

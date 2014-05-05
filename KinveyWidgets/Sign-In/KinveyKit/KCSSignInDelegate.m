@@ -244,54 +244,37 @@
 
 - (void)doCreateAccount:(KWCreateAccountViewController *)createAccountController givenname:(NSString *)givenname surname:(NSString *)surname email:(NSString *)email password:(NSString *)password
 {
-    //As of KinveyKit 1.10, the user object has to be created first with a username and password. Then the object should be updated and resaved with additional attributes, such as email, first name and last name. The email field is important for email verification and passowrd reset.
-    [KCSUser userWithUsername:email password:password withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {
-        if (result == KCSUserCreated && errorOrNil == nil) {
-            //user is created - now need to add personal information and save to the backend
-            //because the user is created with only the password and email fields set, we have to add them and then resave the object to update it
-            user.email = email;
-            user.givenName = givenname;
-            user.surname = surname;
-            
-            //resave the user
-            [user saveToCollection:[KCSCollection userCollection] withCompletionBlock:^(NSArray *objectsOrNil, NSError *errorOrNil) {
-                [createAccountController actionComplete];
-                if (errorOrNil ==  nil) {
-                    [createAccountController.navigationController popViewControllerAnimated:YES];
-                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Account Creation Successful", @"account sucess note title")
-                                                                    message:[NSString stringWithFormat:NSLocalizedString(@"User '%@' created. Welcome %@ %@!", @"account success message body"), email, givenname, surname]
-                                                                   delegate:nil
-                                                          cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                                          otherButtonTitles:nil];
-                    [alert show];
-                    if (_shouldSendEmailVerificationAfterSignup == YES) {
-                        //send the email verificaiton if that is on the docket.
-                        [self doSendEmailVerification:user.username];
-                    }
-                    //all set handle the loging success
-                    KWSignInViewController* signInController = createAccountController.signInController;
-                    [self handleSignInSuccess:signInController user:user];
-                } else {
-                    //there was an error with the update save
-                    NSString* message = [errorOrNil localizedDescription];
-                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Create acccount failed", @"Sign acccount failed")
-                                                                    message:message
-                                                                   delegate:nil
-                                                          cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                                          otherButtonTitles: nil];
-                    [alert show];
-                }
-            } withProgressBlock:nil];
-        } else {
-            //there was an error with the create
+    [KCSUser userWithUsername:email
+                     password:password
+              fieldsAndValues:@{KCSUserAttributeEmail : email, KCSUserAttributeGivenname: givenname, KCSUserAttributeSurname : surname}
+          withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {
+        if (!errorOrNil) {
             [createAccountController actionComplete];
-            NSString* message = [errorOrNil localizedDescription];
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Create acccount failed", @"Sign acccount failed")
-                                                            message:message
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                                  otherButtonTitles: nil];
-            [alert show];
+            if (errorOrNil ==  nil) {
+                [createAccountController.navigationController popViewControllerAnimated:YES];
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Account Creation Successful", @"account sucess note title")
+                                                                message:[NSString stringWithFormat:NSLocalizedString(@"User '%@' created. Welcome %@ %@!", @"account success message body"), email, givenname, surname]
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
+                                                      otherButtonTitles:nil];
+                [alert show];
+                if (_shouldSendEmailVerificationAfterSignup == YES) {
+                    //send the email verificaiton if that is on the docket.
+                    [self doSendEmailVerification:user.username];
+                }
+                //all set handle the loging success
+                KWSignInViewController* signInController = createAccountController.signInController;
+                [self handleSignInSuccess:signInController user:user];
+            } else {
+                //there was an error with the update save
+                NSString* message = [errorOrNil localizedDescription];
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Create acccount failed", @"Sign acccount failed")
+                                                                message:message
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
+                                                      otherButtonTitles: nil];
+                [alert show];
+            }
         }
     }];
 }

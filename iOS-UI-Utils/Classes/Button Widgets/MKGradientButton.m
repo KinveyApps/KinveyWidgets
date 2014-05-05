@@ -97,21 +97,23 @@
 
     //draw the gradient
     NSUInteger nColors = _gradientArray.count;
-    NSMutableArray* cfColors = [NSMutableArray arrayWithCapacity:nColors];
-    for (UIColor * c in colors) {
-        [cfColors addObject:(id)[c colorWithAlphaComponent:alpha].CGColor];
+    if (nColors) {
+        NSMutableArray* cfColors = [NSMutableArray arrayWithCapacity:nColors];
+        for (UIColor * c in colors) {
+            [cfColors addObject:(id)[c colorWithAlphaComponent:alpha].CGColor];
+        }
+        
+        CGFloat locations[nColors];
+        for (int i = 0; i < nColors; i++) {
+            locations[i] = 1.0 / (CGFloat) nColors * (CGFloat) i;
+        }
+        
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        CGGradientRef fillGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) cfColors, locations);
+        CGContextDrawLinearGradient(ctx, fillGradient, CGPointMake(0, CGRectGetMinY(rect)), CGPointMake(0, CGRectGetMaxY(rect)), 0);
+        CGColorSpaceRelease(colorSpace);
+        CGGradientRelease(fillGradient);
     }
-    
-    CGFloat locations[nColors];
-    for (int i = 0; i < nColors; i++) {
-        locations[i] = 1.0 / (CGFloat) nColors * (CGFloat) i;
-    }
-    
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGGradientRef fillGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) cfColors, locations);
-    CGContextDrawLinearGradient(ctx, fillGradient, CGPointMake(0, CGRectGetMinY(rect)), CGPointMake(0, CGRectGetMaxY(rect)), 0);
-    CGColorSpaceRelease(colorSpace);
-    CGGradientRelease(fillGradient);
 
     [strokeColor setStroke];
     roundRect.lineWidth = 2.;

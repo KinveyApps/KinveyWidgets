@@ -137,7 +137,7 @@
     return 3;
 }
 
-- (NSString*) placeholderForTag:(int)tag
+- (NSString*) placeholderForTag:(NSInteger)tag
 {
     switch (tag) {
         case 100:
@@ -159,7 +159,7 @@
     return nil;
 }
 
-- (NSString*) textForTag:(int)tag
+- (NSString*) textForTag:(NSInteger)tag
 {
     switch (tag) {
         case 100:
@@ -236,7 +236,7 @@
     return YES;
 }
 
-- (void)setText:(NSString*)text forTag:(int)tag
+- (void)setText:(NSString*)text forTag:(NSInteger)tag
 {
     switch (tag) {
         case 100:
@@ -380,7 +380,7 @@
 
 - (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)indexPath inView:(UIView *)view
 {
-    return [NSString stringWithFormat:@"%i-%i", indexPath.section, indexPath.row];
+    return [NSString stringWithFormat:@"%li-%li", (long)indexPath.section, (long)indexPath.row];
 }
 
 - (NSIndexPath *)indexPathForElementWithModelIdentifier:(NSString *)identifier inView:(UIView *)view

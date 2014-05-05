@@ -2,7 +2,7 @@
 //  KinveyKit.h
 //  KinveyKit
 //
-//  Copyright (c) 2008-2013, Kinvey, Inc. All rights reserved.
+//  Copyright (c) 2008-2014, Kinvey, Inc. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -45,7 +45,8 @@
 #import "KCSGroup.h"
 #import "KCSReduceFunction.h"
 #import "KCSLinkedAppdataStore.h"
-#import "KCSOfflineSaveStore.h"
+#import "KCSOfflineUpdateDelegate.h"
+#import "KCSClient+KinveyDataStore.h"
 
 #import "KCSFile.h"
 #import "KCSBlobService.h"
@@ -57,7 +58,6 @@
 
 #if TARGET_OS_IPHONE
 #import "KCSPush.h"
-#import "KinveyAnalytics.h"
 
 #endif
 

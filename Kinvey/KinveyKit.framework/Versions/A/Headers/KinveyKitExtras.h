@@ -2,7 +2,6 @@
 //  KinveyKitExtras.h
 //  KinveyKit
 //
-//  Created by Michael Katz on 9/19/12.
 //  Copyright (c) 2012-2013 Kinvey. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at

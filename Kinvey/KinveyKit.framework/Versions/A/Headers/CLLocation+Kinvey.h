@@ -2,8 +2,7 @@
 //  CLLocation+Kinvey.h
 //  KinveyKit
 //
-//  Created by Michael Katz on 8/20/12.
-//  Copyright (c) 2012-2013 Kinvey. All rights reserved.
+//  Copyright (c) 2012-2014 Kinvey. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -18,6 +17,11 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
+
+/** Convert a CLLocationCoordinate2D to the Kinvey representation;
+ @since 1.26.0
+ */
+NSArray* CLLocationCoordinate2DToKCS(CLLocationCoordinate2D coordinate);
 
 /** Helper Category to allow for persisting CLLocation objects to the Kinvey backend.
  @since 1.8
