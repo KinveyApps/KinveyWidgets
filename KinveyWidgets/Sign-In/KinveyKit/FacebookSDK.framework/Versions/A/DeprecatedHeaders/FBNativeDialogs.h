@@ -6,7 +6,7 @@
  * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
- 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-#import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <UIKit/UIKit.h>
+
 #import "FBAppCall.h"
-#import "FBShareDialogParams.h"
 #import "FBOpenGraphActionShareDialogParams.h"
+#import "FBShareDialogParams.h"
 
 @class FBSession;
 @protocol FBOpenGraphAction;
@@ -27,24 +28,24 @@
 
 /*!
  @typedef FBNativeDialogResult enum
- 
+
  @abstract
  Please note that this enum and its related methods have been deprecated, please migrate your
  code to use `FBOSIntegratedShareDialogResult` and its related methods.
  */
-typedef enum {
+typedef NS_ENUM(NSUInteger, FBNativeDialogResult) {
     /*! Indicates that the dialog action completed successfully. */
     FBNativeDialogResultSucceeded,
     /*! Indicates that the dialog action was cancelled (either by the user or the system). */
     FBNativeDialogResultCancelled,
     /*! Indicates that the dialog could not be shown (because not on ios6 or ios6 auth was not used). */
     FBNativeDialogResultError
-} FBNativeDialogResult
+}
 __attribute__((deprecated));
 
 /*!
  @typedef
- 
+
  @abstract
  Please note that `FBShareDialogHandler` and its related methods have been deprecated, please migrate your
  code to use `FBOSIntegratedShareDialogHandler` and its related methods.
@@ -54,7 +55,7 @@ __attribute__((deprecated));
 
 /*!
  @class FBNativeDialogs
- 
+
  @abstract
  Please note that `FBNativeDialogs` has been deprecated, please migrate your
  code to use `FBDialogs`.
@@ -65,11 +66,16 @@ __attribute__((deprecated));
  @abstract
  Please note that this method has been deprecated, please migrate your
  code to use `FBDialogs` and the related method `presentOSIntegratedShareDialogModallyFrom`.
+ @param viewController deprecated
+ @param initialText deprecated
+ @param image deprecated
+ @param url deprecated
+ @param handler deprecated
  */
-+ (BOOL)presentShareDialogModallyFrom:(UIViewController*)viewController
-                          initialText:(NSString*)initialText
-                                image:(UIImage*)image
-                                  url:(NSURL*)url
++ (BOOL)presentShareDialogModallyFrom:(UIViewController *)viewController
+                          initialText:(NSString *)initialText
+                                image:(UIImage *)image
+                                  url:(NSURL *)url
                               handler:(FBShareDialogHandler)handler
 __attribute__((deprecated));
 
@@ -77,11 +83,16 @@ __attribute__((deprecated));
  @abstract
  Please note that this method has been deprecated, please migrate your
  code to use `FBDialogs` and the related method `presentOSIntegratedShareDialogModallyFrom`.
+ @param viewController deprecated
+ @param initialText deprecated
+ @param images deprecated
+ @param urls deprecated
+ @param handler deprecated
  */
-+ (BOOL)presentShareDialogModallyFrom:(UIViewController*)viewController
-                          initialText:(NSString*)initialText
-                               images:(NSArray*)images
-                                 urls:(NSArray*)urls
++ (BOOL)presentShareDialogModallyFrom:(UIViewController *)viewController
+                          initialText:(NSString *)initialText
+                               images:(NSArray *)images
+                                 urls:(NSArray *)urls
                               handler:(FBShareDialogHandler)handler
 __attribute__((deprecated));
 
@@ -89,12 +100,18 @@ __attribute__((deprecated));
  @abstract
  Please note that this method has been deprecated, please migrate your
  code to use `FBDialogs` and the related method `presentOSIntegratedShareDialogModallyFrom`.
+ @param viewController deprecated
+ @param session deprecated
+ @param initialText deprecated
+ @param images deprecated
+ @param urls deprecated
+ @param handler deprecated
  */
-+ (BOOL)presentShareDialogModallyFrom:(UIViewController*)viewController
-                              session:(FBSession*)session
-                          initialText:(NSString*)initialText
-                               images:(NSArray*)images
-                                 urls:(NSArray*)urls
++ (BOOL)presentShareDialogModallyFrom:(UIViewController *)viewController
+                              session:(FBSession *)session
+                          initialText:(NSString *)initialText
+                               images:(NSArray *)images
+                                 urls:(NSArray *)urls
                               handler:(FBShareDialogHandler)handler
 __attribute__((deprecated));
 
@@ -102,7 +119,8 @@ __attribute__((deprecated));
  @abstract
  Please note that this method has been deprecated, please migrate your
  code to use `FBDialogs` and the related method `canPresentOSIntegratedShareDialogWithSession`.
+ @param session deprecated
  */
-+ (BOOL)canPresentShareDialogWithSession:(FBSession*)session __attribute__((deprecated));
++ (BOOL)canPresentShareDialogWithSession:(FBSession *)session __attribute__((deprecated));
 
 @end
