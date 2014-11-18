@@ -123,6 +123,20 @@
 - (void) facebookSignIn:(KWSignInViewController *)signInController
 {
     FBSession* session = [(id)[[UIApplication sharedApplication] delegate] session];
+    void (^failBlock)(void) = ^{
+        [signInController actionComplete];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign in with Facebook failed", @"Sign in with fb failed error title")
+                                                        message:NSLocalizedString(@"Could not open Facebook session", @"FB session not open error message")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
+                                              otherButtonTitles: nil];
+        [alert show];
+    };
+    
+    if (!session) {
+        failBlock();
+        return;
+    }
     if (!session.isOpen) {
         [session openWithCompletionHandler:^(FBSession *session,
                                              FBSessionState status,
@@ -130,13 +144,7 @@
             if (status == FBSessionStateOpen) {
                 [self facebookSignInWithFBSession:session controller:signInController];
             } else {
-                [signInController actionComplete];
-                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign in with Facebook failed", @"Sign in with fb failed error title")
-                                                                message:NSLocalizedString(@"Could not open Facebook session", @"FB session not open error message")
-                                                               delegate:nil
-                                                      cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                                      otherButtonTitles: nil];
-                [alert show];
+                failBlock();
             }
         }];
     } else {
