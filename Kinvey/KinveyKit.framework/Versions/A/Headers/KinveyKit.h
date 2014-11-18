@@ -49,8 +49,6 @@
 #import "KCSClient+KinveyDataStore.h"
 
 #import "KCSFile.h"
-#import "KCSBlobService.h"
-#import "KCSResourceStore.h"
 #import "KCSFileStore.h"
 
 #import "KCSLogSink.h"

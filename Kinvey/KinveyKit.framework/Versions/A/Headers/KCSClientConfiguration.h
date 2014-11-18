@@ -71,6 +71,12 @@ KCS_CONSTANT KCS_KEEP_USER_LOGGED_IN_ON_BAD_CREDENTIALS;
 
 KCS_CONSTANT KCS_SERVICE_HOST;
 
+/** Set to `@YES` for better performance when sending many simultaneous requests.
+ 
+ @since 1.27.0
+ */
+KCS_CONSTANT KCS_ALWAYS_USE_NSURLREQUEST;
+
 
 /** Configuration wrapper for setting up a KCSClient. Configurations are adjustable at compile- or run-time. See the guides at http://devecenter.kinvey.com for how configurations work with app environments.
  

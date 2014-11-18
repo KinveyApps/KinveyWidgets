@@ -43,7 +43,7 @@ typedef void (^KCSUserCheckUsernameBlock)(NSString* username, BOOL usernameAlrea
 
 /** Social Network login providers supported for log-in
  */
-typedef enum  {
+typedef NS_ENUM(NSInteger, KCSUserSocialIdentifyProvider)  {
     /** Facebook */
     KCSSocialIDFacebook,
     /** Twitter */
@@ -52,8 +52,10 @@ typedef enum  {
     KCSSocialIDLinkedIn,
     /** Salesforce */
     KCSSocialIDSalesforce,
+    /** Kinvey Auth */
+    KCSSocialIDKinvey,
     KCSSocialIDOther,
-} KCSUserSocialIdentifyProvider;
+};
 
 /** Access Dictionary key for the token: both Facebook & Twitter */
 KCS_CONSTANT KCSUserAccessTokenKey;
@@ -215,15 +217,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
 /// @name Creating Users
 ///---------------------------------------------------------------------------------------
 
-/*! Create a new Kinvey user and register them with the backend.
- * @param username The username to create, if it already exists on the back-end an error will be returned.
- * @param password The user's password
- * @param delegate The delegate to inform once creation completes
- * @deprecatedIn 1.19.0
-*/
-+ (void)userWithUsername: (NSString *)username password: (NSString *)password withDelegate: (id<KCSUserActionDelegate>)delegate KCS_DEPRECATED(use userWithUsername:password:withCompletionBlock: instead, 1.19.0);
-
-
 /** Create a new Kinvey user and register them with the backend.
  * @param username The username to create, if it already exists on the back-end an error will be returned.
  * @param password The user's password
@@ -272,14 +265,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
  @since 1.19.0
  */
 + (KCSUser*)initAndActivateWithSavedCredentials;
-
-/*! Login an existing user, generates an error if the user doesn't exist
- * @param username The username of the user
- * @param password The user's password
- * @param delegate The delegate to inform once the action is complete
- * @deprecatedIn 1.19.0
-*/
-+ (void)loginWithUsername: (NSString *)username password: (NSString *)password withDelegate: (id<KCSUserActionDelegate>)delegate KCS_DEPRECATED([Use loginWithUsername:password:withCompletionBlock: instead, 1.19.0);
 
 /*! Login an existing user, generates an error if the user doesn't exist
  * @param username The username of the user
