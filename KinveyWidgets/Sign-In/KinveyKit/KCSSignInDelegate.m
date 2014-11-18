@@ -32,9 +32,11 @@
 - (void) handleSignInSuccess:(KWSignInViewController *)signInController user:(KCSUser*)user
 {
     if (_emailVerificationRequired && user.emailVerified == NO) {
+        [signInController.navigationController popToRootViewControllerAnimated:NO];
         //if email verificaiton is required to use the app and the user has not verified his/her email, send them to the resend screen
         [signInController showEmailVerificationScreen:user.username];
     } else {
+        [signInController.navigationController popToRootViewControllerAnimated:YES];
         [_signInResponder userSucessfullySignedIn:user];
     }
 }
@@ -259,7 +261,7 @@
         if (!errorOrNil) {
             [createAccountController actionComplete];
             if (errorOrNil ==  nil) {
-                [createAccountController.navigationController popViewControllerAnimated:YES];
+//                [createAccountController.navigationController popViewControllerAnimated:YES];
                 UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Account Creation Successful", @"account sucess note title")
                                                                 message:[NSString stringWithFormat:NSLocalizedString(@"User '%@' created. Welcome %@ %@!", @"account success message body"), email, givenname, surname]
                                                                delegate:nil

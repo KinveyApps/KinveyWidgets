@@ -312,6 +312,18 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
     [self.view setNeedsLayout];
 }
 
+- (void)setTitlesForSocialButtonsForMode:(KWSocialButtonMode)mode {
+    if (mode == KWSocialButtonModeIconOnly) {
+        [_facebookButton setTitle:nil forState:UIControlStateNormal];
+        [_linkedInButton setTitle:nil forState:UIControlStateNormal];
+        [_twitterButton setTitle:nil forState:UIControlStateNormal];
+    } else if (mode == KWSocialButtonModeDefault) {
+        [_facebookButton setTitle:NSLocalizedString(@"Sign in with Facebook", @"Facebook button") forState:UIControlStateNormal];
+        [_linkedInButton setTitle:NSLocalizedString(@"Sign in with LinkedIn", @"LinkedIn button") forState:UIControlStateNormal];
+        [_twitterButton setTitle:NSLocalizedString(@"Sign in with Twitter", @"Twitter button") forState:UIControlStateNormal];
+    }
+}
+
 // This view controller has three layouts: iPhone portrait, iPhone landscape, and iPad
 
 #define kTopMargin 14.
@@ -375,6 +387,7 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
             _linkedInButton.frame = loginFrame;
             _linkedInButton.buttonMode = KWSocialButtonModeIconOnly;
         }
+        [self setTitlesForSocialButtonsForMode:KWSocialButtonModeIconOnly];
     }
     
     if (_showsResetPasswordButton) {
@@ -448,6 +461,7 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
             _linkedInButton.frame = userFrame;
             _linkedInButton.buttonMode = KWSocialButtonModeDefault;
         }
+        [self setTitlesForSocialButtonsForMode:KWSocialButtonModeDefault];
     }
     
     if (_showsCreateAccountButton) {

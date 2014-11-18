@@ -39,13 +39,17 @@
     dispatch_once(&onceToken, ^{ //don't call twice but make sure is called on both iOS5 & iOS6
         // Kinvey use Code
         // if not using Twitter for sign in - remove these options keys (set to nil), otherwise supply your app's Twitter credentials
+        NSDictionary *options = @{
+                                  KCS_TWITTER_CLIENT_KEY : @"<#Twitter Client Key#>",
+                                  KCS_TWITTER_CLIENT_SECRET : @"<#Twitter Client Secret#>",
+                                  KCS_LINKEDIN_API_KEY : @"<#LinkedIn API Key#>",
+                                  KCS_LINKEDIN_SECRET_KEY : @"<#LinkedIn Secret Key #>",
+                                  KCS_LINKEDIN_ACCEPT_REDIRECT : @"<#LinkedIn Accept Redirect URI#>",
+                                  KCS_LINKEDIN_CANCEL_REDIRECT : @"<#LinkedIn Cancel Redirect URI#>"
+                                  };
         (void)[[KCSClient sharedClient] initializeKinveyServiceForAppKey:@"<#Kinvey App Key#>"
                                                            withAppSecret:@"<#Kinvey App Secret#>"
-                                                            usingOptions:@{KCS_TWITTER_CLIENT_KEY : @"<#Twitter Client Key#>", KCS_TWITTER_CLIENT_SECRET : @"<#Twitter Client Secret#>",
-                                                   KCS_LINKEDIN_API_KEY : @"<#LinkedIn API Key#>",
-                                                KCS_LINKEDIN_SECRET_KEY : @"<#LinkedIn Secret Key #>",
-                                           KCS_LINKEDIN_ACCEPT_REDIRECT : @"<#LinkedIn Accept Redirect URI#>",
-                                           KCS_LINKEDIN_CANCEL_REDIRECT : @"<#LinkedIn Cancel Redirect URI#>"}];
+                                                            usingOptions:options];
 
         
 #warning remove if Not using facebook SDK
@@ -62,8 +66,9 @@
         signindelegate.signInResponder = self;
         
         //Uncomment to turn on email verification - it's NO by default
-        //signindelegate.shouldSendEmailVerificationAfterSignup = YES;
-        signindelegate.emailVerificationRequired = YES; //separate bool to check that verification is required to use the app - some apps allow use even if not verified
+//        signindelegate.shouldSendEmailVerificationAfterSignup = YES;
+        //separate bool to check that verification is required to use the app - some apps allow use even if not verified
+//        signindelegate.emailVerificationRequired = YES;
         self.signInDelegate = signindelegate;
         
         KWSignInViewController* signInViewController = [[KWSignInViewController alloc] init];

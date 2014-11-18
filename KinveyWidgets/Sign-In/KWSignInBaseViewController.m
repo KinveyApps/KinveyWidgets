@@ -37,6 +37,7 @@
 {
     KWGradientView* view = [[KWGradientView alloc] init];
     self.view = view;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     _signInDelegate = nil;
     
