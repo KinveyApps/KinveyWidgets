@@ -90,8 +90,8 @@ All good code comes with an example project, and so this one does as well. See K
 ## System Requirements
 * iPhone, iPod Touch, iPad
 * iOS 5+
-* KinveyKit 1.20.1 (for use with Kinvey's services)
-* Facebook SDK 3.7.1 (only for sign-in with Facebook)
+* KinveyKit 1.27.1 (for use with Kinvey's services)
+* Facebook SDK 3.20 (only for sign-in with Facebook)
 
 ## Contact
 Website: [www.kinvey.com](http://www.kinvey.com)
@@ -100,7 +100,7 @@ Support: [support@kinvey.com](http://docs.kinvey.com/mailto:support@kinvey.com)
 
 ## License
 
-Copyright (c) 2013 Kinvey, Inc.
+Copyright (c) 2014 Kinvey, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
