@@ -22,13 +22,13 @@
 #import "AppDelegate.h"
 
 #import <KinveyKit/KinveyKit.h>
-#import <FacebookSDK/FacebookSDK.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import "KWSignInViewController.h"
 #import "KCSSignInDelegate.h"
 
 @interface AppDelegate () <KCSSignInResponder>
-@property (nonatomic, retain) FBSession* session;
+
 @end
 
 @implementation AppDelegate
@@ -51,10 +51,8 @@
 #warning remove if Not using facebook SDK
         //If not using Facebookf or sign in - remove all the FBSession stuff from your code, otherwise supply your app's Facebook credentials
         //You'll also need supply the appropriate fb### URL callback in the Info.plist file
-        self.session = [[FBSession alloc] initWithAppID:@"<#Facebook App Id#>"
-                                            permissions:nil
-                                        urlSchemeSuffix:nil
-                                     tokenCacheStrategy:nil];
+        [FBSDKSettings setAppID:@"<#Facebook App Id#>"];
+        [FBSDKSettings setDisplayName:@"<#Facebook Display Name#>"];
         
         
         //Create the Sign-In stuff:
@@ -108,6 +106,10 @@
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self setupApplication];
+
+#warning remove if Not using facebook SDK
+    [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+    
     return YES;
 }
 
@@ -135,8 +137,18 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
+#warning remove if Not using facebook SDK
     // attempt to extract a token from the url
-    return [self.session handleOpenURL:url];
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
+}
+
+-(void)applicationDidBecomeActive:(UIApplication *)application
+{
+#warning remove if Not using facebook SDK
+    [FBSDKAppEvents activateApp];
 }
 
 #pragma mark - State Restoration

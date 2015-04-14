@@ -21,10 +21,13 @@
 
 #import "KCSSignInDelegate.h"
 #import <KinveyKit/KinveyKit.h>
-#import <FacebookSDK/FacebookSDK.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import "KWResetPasswordController.h"
 #import "KWCreateAccountViewController.h"
+
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 @implementation KCSSignInDelegate
 
@@ -99,9 +102,9 @@
 }
 
 //helper to perform the FB login
-- (void) facebookSignInWithFBSession:(FBSession*)session controller:(KWSignInViewController *)signInController
+- (void) facebookSignInWithFBSDKAccessToken:(FBSDKAccessToken*)token controller:(KWSignInViewController *)signInController
 {
-    NSString* accessToken = session.accessTokenData.accessToken;
+    NSString* accessToken = token.tokenString;
     [KCSUser loginWithSocialIdentity:KCSSocialIDFacebook
                     accessDictionary:@{ KCSUserAccessTokenKey : accessToken} //construct the special access dictionary for using FB with Kinvey
                  withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result) {
@@ -119,17 +122,18 @@
                  }];
     
 }
+
 //make use of the Facebook SDK to get the current user's credentials
 - (void) facebookSignIn:(KWSignInViewController *)signInController
 {
-    FBSession* session = [(id)[[UIApplication sharedApplication] delegate] session];
-    if (!session.isOpen) {
-        [session openWithCompletionHandler:^(FBSession *session,
-                                             FBSessionState status,
-                                             NSError *error) {
-            if (status == FBSessionStateOpen) {
-                [self facebookSignInWithFBSession:session controller:signInController];
-            } else {
+    FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+    FBSDKAccessToken *accessToken = [FBSDKAccessToken currentAccessToken];
+    if (accessToken) {
+        [self facebookSignInWithFBSDKAccessToken:accessToken controller:signInController];
+    } else {
+        [login logInWithReadPermissions:@[@"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+            if (error) {
+                // Process error
                 [signInController actionComplete];
                 UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign in with Facebook failed", @"Sign in with fb failed error title")
                                                                 message:NSLocalizedString(@"Could not open Facebook session", @"FB session not open error message")
@@ -137,10 +141,18 @@
                                                       cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
                                                       otherButtonTitles: nil];
                 [alert show];
+            } else if (result.isCancelled) {
+                // Handle cancellations
+                [signInController actionComplete];
+            } else {
+                // If you ask for multiple permissions at once, you
+                // should check if specific permissions missing
+                if ([result.grantedPermissions containsObject:@"email"]) {
+                    // Do work
+                    [self facebookSignInWithFBSDKAccessToken:result.token controller:signInController];
+                }
             }
         }];
-    } else {
-        [self facebookSignInWithFBSession:session controller:signInController];
     }
 }
 
