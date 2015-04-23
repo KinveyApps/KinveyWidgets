@@ -68,6 +68,20 @@
     return button;
 }
 
++ (KWSocialButton *)googlePlusButton
+{
+    KWSocialButton* button = [[KWSocialButton alloc] initWithFrame:CGRectMake(0., 0., 240., 30.)];
+    button.gradientArray = @[[UIColor colorWithHexString:@"DD4B39"], [UIColor colorWithHexString:@"B93C2D"]];
+    button.borderColor = [UIColor clearColor];
+    UIImage* image = [UIImage imageNamed:@"google_plus"];
+    [button setImage:image forState:UIControlStateNormal];
+    button.splitLineColorLeft = [UIColor colorWithHexString:@"BB3F30"];
+    button.splitLineColorRight = [UIColor colorWithHexString:@"C33F2F"];
+    button.adjustsImageWhenHighlighted = NO;
+    button.imageView.contentMode = UIViewContentModeCenter;
+    return button;
+}
+
 #pragma mark - overrides
 
 - (void) layoutSubviews

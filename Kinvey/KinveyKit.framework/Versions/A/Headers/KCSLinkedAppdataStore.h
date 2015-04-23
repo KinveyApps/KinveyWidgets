@@ -2,7 +2,7 @@
 //  KCSLinkedAppdataStore.h
 //  KinveyKit
 //
-//  Copyright (c) 2012-2013 Kinvey. All rights reserved.
+//  Copyright (c) 2012-2014 Kinvey. All rights reserved.
 //
 // This software is licensed to you under the Kinvey terms of service located at
 // http://www.kinvey.com/terms-of-use. By downloading, accessing and/or using this
@@ -21,7 +21,7 @@
 /**
  This store will save linked resources to the backend when an entity is saved, and load such saved resources when an entity is fetched. **(This API is still in beta, please send us feedback)**. 
  
- To make use of this, have an entity map a `UIImage` property to the Kinvey dictionary in - [KCSPersistable hostToKinveyPropertyMapping], and save that entity. The associated image will be saved a a PNG blob in the backend and linked back to its entity, so that when the entity is loaded, the image will be fetched from the resource service.
+ To make use of this, have an entity map a `UIImage` property to the Kinvey dictionary in - [KCSPersistable hostToKinveyPropertyMapping], and save that entity. The associated image will be saved a a PNG blob in the backend and linked back to its entity, so that when the entity is loaded, the image will be fetched from the resource service. This property also must be mapped to `[KCSCollection fileMetadataCollection]` in `kinveyPropertyToCollectionMapping`.
  
  KCSLinkedAppdataStore also saves/loads object graphs specified through special Kinvey References. This information is stored on the backend, and is created when an object specifies a kinveyPropertyToCollectionMapping. Properties that have been mapped to foreign (or the same) collection will have the relation along with the linked objects persisted to the backend. Using [KCSStore queryWithQuery:withCompletionBlock:withProgressBlock:] and [KCSAppdataStore loadObjectWithID:withCompletionBlock:withProgressBlock:] will have the reference objects loaded and instantiated at that time. See our online iOS Developer Guide for more details, examples, and limations [http://docs.kinvey.com/ios-developers-guide.html](http://docs.kinvey.com/ios-developers-guide.html).
  
@@ -32,3 +32,4 @@
 @interface KCSLinkedAppdataStore : KCSCachedStore
 
 @end
+

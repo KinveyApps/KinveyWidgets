@@ -77,7 +77,7 @@
  @param sigInController the calling controller. Be sure to call `[signInController actionComplete]` once the action completes: sucessful or otherwise.
  @param signInProvider a string matching one of the ones defined in KWSignInViewController.h,  representing the identifer of a particular identity service
  */
-- (void) doSoicalSignIn:(KWSignInViewController*)signInController provider:(NSString*)signInProvider;
+- (void) doSocialSignIn:(KWSignInViewController*)signInController provider:(NSString*)signInProvider;
 
 /** Called when the user presses the "resend email verification" butotn. 
  @param username the username of the current user

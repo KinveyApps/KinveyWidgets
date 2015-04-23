@@ -19,7 +19,7 @@
 #import <Foundation/Foundation.h>
 #import "KinveyHeaderInfo.h"
 
-typedef enum : NSInteger
+typedef NS_ENUM(NSInteger, KCSQueryConditional)
 {
     // NO OP
     kKCSNOOP = 1,
@@ -59,13 +59,13 @@ typedef enum : NSInteger
     kKCSExists = 17003,
     kKCSType = 17004
     
-} KCSQueryConditional;
+};
 
 // DO NOT CHANGE THE VALUES IN THIS ENUM.  They're meaningful to the implementation of this class
-typedef enum {
+typedef NS_ENUM(NSInteger, KCSSortDirection) {
     kKCSAscending = 1,
     kKCSDescending = -1
-} KCSSortDirection;
+};
 
 /*! Representation of a sorting directive
  
@@ -252,6 +252,8 @@ typedef enum {
  
  */
 + (KCSQuery *)queryOnField:(NSString *)field usingConditionalsForValues:(KCSQueryConditional)firstConditional, ... NS_REQUIRES_NIL_TERMINATION;
+
++ (KCSQuery *)queryOnField:(NSString *)field usingConditionalsForValuesArgs:(va_list)args;
 
 /*! Create a new query joining multiple existing queries.
 

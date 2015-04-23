@@ -21,7 +21,7 @@
 #import "KCSAppdataStore.h"
 
 /** Cache Policies. These constants determine the caching behavior when used with KCSChacedStore query. */
-typedef enum KCSCachePolicy {
+typedef NS_ENUM(NSUInteger, KCSCachePolicy) {
     /** No Caching - all queries are sent to the server */
     KCSCachePolicyNone,
     KCSCachePolicyLocalOnly,
@@ -29,7 +29,7 @@ typedef enum KCSCachePolicy {
     KCSCachePolicyNetworkFirst,
     KCSCachePolicyBoth,
     KCSCachePolicyReadOnceAndSaveLocal_Xperimental //for caching assests that change infrequently (e.g. ui assets, names of presidents, etc)
-} KCSCachePolicy;
+};
 
 #define KCSStoreKeyCachePolicy @"cachePolicy"
 
@@ -125,7 +125,16 @@ KCS_CONSTANT KCSStoreKeyOfflineUpdateEnabled;
  @see exportCache
  @since 1.24.0
  */
-- (void) import:(NSArray*)jsonObjects;
+- (void) import:(NSArray*)jsonObjects KCS_DEPRECATED(--use importCache: instead, 1.31.0);
+
+/**
+ Seed the store's cache with entities.
+ 
+ @param jsonObjects an array of `NSDictionary` objects to place into the store's cache. These must have at least an `_id` field set.
+ @see exportCache
+ @since 1.31.0
+ */
+- (void) importCache:(NSArray*)jsonObjects;
 
 /** Export the cache as an array of entities ready for serialization.
  

@@ -18,6 +18,7 @@
 
 #import <Foundation/Foundation.h>
 #import "KinveyHeaderInfo.h"
+#import "KCSRequestConfiguration.h"
 
 #define MINIMUM_KCS_VERSION_SUPPORTED @"3.0"
 
@@ -35,6 +36,9 @@
 #define KCS_SALESFORCE_IDENTITY_URL @"id"
 #define KCS_SALESFORCE_REFRESH_TOKEN @"refresh_token"
 #define KCS_SALESFORCE_CLIENT_ID @"client_id"
+
+#define KCS_GOOGLE_PLUS_CLIENT_ID @"googlePlusClientID"
+#define KCS_GOOGLE_PLUS_CLIENT_SECRET @"googlePlusClientSecret"
 
 /** Notification for when a network operation starts 
  @since 1.26.0
@@ -187,7 +191,43 @@ KCS_CONSTANT KCSNetworkConnectionDidEnd;
  For example, KCSClient *client = [[KCSClient sharedClient] initializeKinveyServiceForAppKey:@"key" withAppSecret:@"secret" usingOptions:nil];
  
  */
-- (instancetype)initializeKinveyServiceForAppKey: (NSString *)appKey withAppSecret: (NSString *)appSecret usingOptions: (NSDictionary *)options;
+- (instancetype)initializeKinveyServiceForAppKey:(NSString *)appKey
+                                   withAppSecret:(NSString *)appSecret
+                                    usingOptions:(NSDictionary *)options;
+
+/*! Initialize the singleton KCSClient with this application's key and the secret for this app, along with any needed options.
+ 
+ This routine (or initializeKinveyServiceWithPropertyList) MUST be called prior to using the Kinvey Service otherwise all access will fail.  This routine authenticates you with
+ the Kinvey Service.  The appKey and appSecret are available in the Kinvey Console.  Options can be used to configure push, etc.
+ 
+ The options array supports the following Values (note that the values are followed by the NSStrings expected in the plist file if you're using
+ plists for initialization):
+ 
+ - KCS_APP_KEY_KEY @"kcsAppKey"  -- The app key obtained from the console
+ - KCS_APP_SECRET_KEY @"kcsSecret" -- The app secret obtained from the console (not the master secret)
+ - KCS_SERVICE_KEY @"kcsServiceKey" -- Not currently used
+ - KCS_PUSH_KEY_KEY @"kcsPushKey" -- The PUSH Key obtained from the console
+ - KCS_PUSH_SECRET_KEY @"kcsPushSecret" -- The PUSH Secret obtained from the console
+ - KCS_PUSH_IS_ENABLED_KEY @"kcsPushEnabled" -- YES if push is to be enabled, NO if push is not needed
+ - KCS_PUSH_MODE_KEY @"kcsPushMode" -- , KCS_PUSH_DEBUG or KCS_PUSH_RELEASE the keys must match the mode
+ - KCS_PUSH_DEBUG @"debug"
+ - KCS_PUSH_RELEASE @"release"
+ - KCS_USE_OLD_PING_STYLE_KEY @"kcsPingStyle" -- Enable old style push behavior, deprecated functionality
+ 
+ 
+ @param appKey The Kinvey provided App Key used to identify this application
+ @param appSecret The Kinvey provided App Secret used to authenticate this application.
+ @param options The NSDictionary used to configure optional services.
+ @param requestConfiguration defines how the client requests should be set up by default
+ @return The KCSClient singleton (can be used to chain several calls)
+ 
+ For example, KCSClient *client = [[KCSClient sharedClient] initializeKinveyServiceForAppKey:@"key" withAppSecret:@"secret" usingOptions:nil];
+ 
+ */
+- (instancetype)initializeKinveyServiceForAppKey:(NSString *)appKey
+                                   withAppSecret:(NSString *)appSecret
+                                    usingOptions:(NSDictionary *)options
+                            requestConfiguration:(KCSRequestConfiguration*)requestConfiguration;
 
 /*! Initialize the singleton KCSClient with a dictionary plist containing options to run
  

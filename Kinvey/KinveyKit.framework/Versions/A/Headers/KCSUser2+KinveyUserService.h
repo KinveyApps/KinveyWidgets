@@ -33,6 +33,22 @@ typedef void (^KCSUser2CompletionBlock)(id<KCSUser2>user, NSError* error);
 
 + (void) loginWithUsername:(NSString *)username password:(NSString *)password completion:(KCSUser2CompletionBlock)completionBlock;
 + (void) connectWithAuthProvider:(KCSUserSocialIdentifyProvider)provider accessDictionary:(NSDictionary*)accessDictionary completion:(KCSUser2CompletionBlock)completionBlock;
+
++ (void)loginWithAuthorizationCodeLoginPage:(NSString*)redirectURI;
+
++ (void)loginWithAuthorizationCodeAPI:(NSString*)redirectURI
+                              options:(NSDictionary*)optons
+                           completion:(KCSUser2CompletionBlock)completionBlock;
+
++ (NSURL*)URLforLoginWithMICRedirectURI:(NSString*)redirectURI;
+
++ (BOOL)isValidMICRedirectURI:(NSString*)redirectURI
+                       forURL:(NSURL*)url;
+
++(void)parseMICRedirectURI:(NSString *)redirectURI
+                    forURL:(NSURL *)url
+       withCompletionBlock:(KCSUser2CompletionBlock)completionBlock;
+
 + (void) logoutUser:(id<KCSUser2>)user;
 
 

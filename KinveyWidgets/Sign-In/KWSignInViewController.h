@@ -41,6 +41,10 @@ FOUNDATION_EXPORT NSString* const KWSignInTwitter;
  @see [KWSignInViewController socialLogins]
  */
 FOUNDATION_EXPORT NSString* const KWSignInLinkedIn;
+/** Constant to specify that the Login screen sohuld show a 'Sign In with Google+' button.
+ @see [KWSignInViewController socialLogins]
+ */
+FOUNDATION_EXPORT NSString* const KWSignInGooglePlus;
 
 
 /** Enum switch to control if the Sign In view uses text or an image for the title area. 

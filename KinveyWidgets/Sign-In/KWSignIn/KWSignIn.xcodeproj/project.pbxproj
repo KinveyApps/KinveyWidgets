@@ -59,10 +59,16 @@
 		2777E7B5162F3BD800684C96 /* NSString+MKHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2777E7A8162F3BD800684C96 /* NSString+MKHelpers.m */; };
 		2777E7B6162F3BD800684C96 /* UIColor+MKHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2777E7AB162F3BD800684C96 /* UIColor+MKHelpers.m */; };
 		2777E7B7162F3BD800684C96 /* UILabel+MKHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2777E7AD162F3BD800684C96 /* UILabel+MKHelpers.m */; };
-		27CF826617D64F7200B5B0CB /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CF826517D64F7200B5B0CB /* FBSDKCoreKit.framework */; };
 		27DA42511917D81000A21E5A /* MD5Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DA42501917D81000A21E5A /* MD5Helpers.m */; };
+		575FC3371AE8708A003767A4 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CF826517D64F7200B5B0CB /* FBSDKCoreKit.framework */; };
+		575FC3381AE8715C003767A4 /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F589DB1ADCD72A0037B336 /* GoogleSignIn.framework */; };
 		57F589D41ADC8A230037B336 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F589D31ADC8A230037B336 /* FBSDKLoginKit.framework */; };
 		57F589D51ADC8BBE0037B336 /* KinveyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CF826317D64F4100B5B0CB /* KinveyKit.framework */; };
+		57F589D81ADCD5BF0037B336 /* google_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 57F589D61ADCD5BF0037B336 /* google_plus.png */; };
+		57F589D91ADCD5BF0037B336 /* google_plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 57F589D71ADCD5BF0037B336 /* google_plus@2x.png */; };
+		57F589DC1ADCD72A0037B336 /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 57F589DA1ADCD72A0037B336 /* GoogleSignIn.bundle */; };
+		57F589DF1ADCDA0A0037B336 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F589DE1ADCDA0A0037B336 /* AddressBook.framework */; };
+		57F589E11ADCDAED0037B336 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F589E01ADCDAED0037B336 /* CoreText.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -146,6 +152,12 @@
 		27DA42501917D81000A21E5A /* MD5Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD5Helpers.m; sourceTree = "<group>"; };
 		27E4B2F01631ABC800D10F16 /* KWSignInViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWSignInViewControllerDelegate.h; path = ../KWSignInViewControllerDelegate.h; sourceTree = "<group>"; };
 		57F589D31ADC8A230037B336 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		57F589D61ADCD5BF0037B336 /* google_plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = google_plus.png; sourceTree = "<group>"; };
+		57F589D71ADCD5BF0037B336 /* google_plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "google_plus@2x.png"; sourceTree = "<group>"; };
+		57F589DA1ADCD72A0037B336 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
+		57F589DB1ADCD72A0037B336 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
+		57F589DE1ADCDA0A0037B336 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		57F589E01ADCDAED0037B336 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,26 +165,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57F589E11ADCDAED0037B336 /* CoreText.framework in Frameworks */,
+				2777E76B162F3AC400684C96 /* SystemConfiguration.framework in Frameworks */,
+				57F589DF1ADCDA0A0037B336 /* AddressBook.framework in Frameworks */,
 				2777E76F162F3B4300684C96 /* CoreLocation.framework in Frameworks */,
 				2777E770162F3B4300684C96 /* CoreTelephony.framework in Frameworks */,
 				57F589D41ADC8A230037B336 /* FBSDKLoginKit.framework in Frameworks */,
 				2777E761162F3AC400684C96 /* Accounts.framework in Frameworks */,
+				575FC3381AE8715C003767A4 /* GoogleSignIn.framework in Frameworks */,
 				2777E762162F3AC400684C96 /* AdSupport.framework in Frameworks */,
 				2777E763162F3AC400684C96 /* CFNetwork.framework in Frameworks */,
 				2777E764162F3AC400684C96 /* libsqlite3.dylib in Frameworks */,
 				2777E765162F3AC400684C96 /* libz.dylib in Frameworks */,
 				2777E766162F3AC400684C96 /* MobileCoreServices.framework in Frameworks */,
+				575FC3371AE8708A003767A4 /* FBSDKCoreKit.framework in Frameworks */,
 				2777E767162F3AC400684C96 /* QuartzCore.framework in Frameworks */,
 				2777E768162F3AC400684C96 /* Security.framework in Frameworks */,
 				2777E769162F3AC400684C96 /* Social.framework in Frameworks */,
 				2777E76A162F3AC400684C96 /* StoreKit.framework in Frameworks */,
-				2777E76B162F3AC400684C96 /* SystemConfiguration.framework in Frameworks */,
 				2777E76C162F3AC400684C96 /* Twitter.framework in Frameworks */,
 				2777E71F162F39AA00684C96 /* CoreGraphics.framework in Frameworks */,
 				2777E71B162F39AA00684C96 /* UIKit.framework in Frameworks */,
 				57F589D51ADC8BBE0037B336 /* KinveyKit.framework in Frameworks */,
 				2777E71D162F39AA00684C96 /* Foundation.framework in Frameworks */,
-				27CF826617D64F7200B5B0CB /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +214,8 @@
 		2777E719162F39AA00684C96 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				57F589E01ADCDAED0037B336 /* CoreText.framework */,
+				57F589DE1ADCDA0A0037B336 /* AddressBook.framework */,
 				27CF826317D64F4100B5B0CB /* KinveyKit.framework */,
 				2777E76D162F3B4300684C96 /* CoreLocation.framework */,
 				2777E76E162F3B4300684C96 /* CoreTelephony.framework */,
@@ -253,6 +270,8 @@
 		2777E737162F39C700684C96 /* KinveyKit */ = {
 			isa = PBXGroup;
 			children = (
+				57F589DA1ADCD72A0037B336 /* GoogleSignIn.bundle */,
+				57F589DB1ADCD72A0037B336 /* GoogleSignIn.framework */,
 				27CF826517D64F7200B5B0CB /* FBSDKCoreKit.framework */,
 				57F589D31ADC8A230037B336 /* FBSDKLoginKit.framework */,
 				2777E739162F39C700684C96 /* KCSSignInDelegate.h */,
@@ -317,6 +336,8 @@
 				2777E783162F3BA900684C96 /* facebook@2x.png */,
 				2777E784162F3BA900684C96 /* twitter.png */,
 				2777E785162F3BA900684C96 /* twitter@2x.png */,
+				57F589D61ADCD5BF0037B336 /* google_plus.png */,
+				57F589D71ADCD5BF0037B336 /* google_plus@2x.png */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -462,8 +483,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57F589D91ADCD5BF0037B336 /* google_plus@2x.png in Resources */,
 				2777E725162F39AA00684C96 /* InfoPlist.strings in Resources */,
 				2777E72D162F39AA00684C96 /* Default.png in Resources */,
+				57F589D81ADCD5BF0037B336 /* google_plus.png in Resources */,
+				57F589DC1ADCD72A0037B336 /* GoogleSignIn.bundle in Resources */,
 				2777E72F162F39AA00684C96 /* Default@2x.png in Resources */,
 				2777E731162F39AA00684C96 /* Default-568h@2x.png in Resources */,
 				2777E776162F3B7800684C96 /* user.png in Resources */,
@@ -586,15 +610,15 @@
 					"$(SRCROOT)",
 					"\"$(SRCROOT)/../../../Kinvey\"",
 					"\"$(SRCROOT)/../KinveyKit\"",
-					"/Users/victor/Documents/KinveyWidgets/KinveyWidgets/Sign-In/KinveyKit",
-					/Users/victor/Documents/KinveyWidgets/Kinvey,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KWSignIn/KWSignIn-Prefix.pch";
 				INFOPLIST_FILE = "KWSignIn/KWSignIn-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -607,12 +631,11 @@
 					"$(SRCROOT)",
 					"\"$(SRCROOT)/../../../Kinvey\"",
 					"\"$(SRCROOT)/../KinveyKit\"",
-					"/Users/victor/Documents/KinveyWidgets/KinveyWidgets/Sign-In/KinveyKit",
-					/Users/victor/Documents/KinveyWidgets/Kinvey,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KWSignIn/KWSignIn-Prefix.pch";
 				INFOPLIST_FILE = "KWSignIn/KWSignIn-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

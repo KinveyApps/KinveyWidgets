@@ -49,12 +49,11 @@
 #import "KCSClient+KinveyDataStore.h"
 
 #import "KCSFile.h"
-#import "KCSBlobService.h"
-#import "KCSResourceStore.h"
 #import "KCSFileStore.h"
 
 #import "KCSLogSink.h"
 
+#import "KCSURLProtocol.h"
 
 #if TARGET_OS_IPHONE
 #import "KCSPush.h"

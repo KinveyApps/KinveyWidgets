@@ -26,6 +26,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb1234567890</string>
+				<string>com.googleusercontent.apps.1234567890</string>
 			</array>
 		</dict>
 	</array>

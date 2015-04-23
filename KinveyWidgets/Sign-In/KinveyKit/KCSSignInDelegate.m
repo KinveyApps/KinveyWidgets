@@ -29,6 +29,14 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
+#import <GoogleSignIn/GoogleSignIn.h>
+
+@interface KCSSignInDelegate () <GIDSignInDelegate>
+
+@property (nonatomic, strong) KWSignInViewController* signInController;
+
+@end
+
 @implementation KCSSignInDelegate
 
 #pragma mark - Sign In
@@ -202,9 +210,18 @@
     }];
 }
 
+- (void) googlePlusSignIn:(KWSignInViewController *)signInController
+{
+    self.signInController = signInController;
+    
+    GIDSignIn *signIn = [GIDSignIn sharedInstance];
+    signIn.shouldFetchBasicProfile = YES;
+    signIn.delegate = self;
+    [signIn signIn];
+}
 
 //choose the method based on the provider to obtain credentials
-- (void) doSoicalSignIn:(KWSignInViewController *)signInController provider:(NSString *)signInProvider
+- (void) doSocialSignIn:(KWSignInViewController *)signInController provider:(NSString *)signInProvider
 {
     if (signInProvider == KWSignInTwitter) {
         [self twitterSignIn:signInController];
@@ -212,6 +229,8 @@
         [self facebookSignIn:signInController];
     } else if (signInProvider == KWSignInLinkedIn) {
         [self linkedInSignIn:signInController];
+    } else if (signInProvider == KWSignInGooglePlus) {
+        [self googlePlusSignIn:signInController];
     } else {
         @throw [NSException exceptionWithName:@"SocialIDNotSupported" reason:[NSString stringWithFormat:@"social provider '%@' not supported", signInProvider] userInfo:nil];
     }
@@ -290,4 +309,33 @@
         }
     }];
 }
+
+#pragma mark - GIDSignInDelegate
+
+-(void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error
+{
+    NSDictionary* accessDictionary = @{
+        KCSUserAccessTokenKey : user.authentication.accessToken,
+        KCSUserAccessRefreshTokenKey : user.authentication.refreshToken,
+        KCSUserAccessExpiresInKey : @((NSUInteger) [user.authentication.accessTokenExpirationDate timeIntervalSinceNow])
+    };
+    [KCSUser loginWithSocialIdentity:KCSSocialIDGooglePlus
+                    accessDictionary:accessDictionary
+                 withCompletionBlock:^(KCSUser *user, NSError *errorOrNil, KCSUserActionResult result)
+    {
+        [self.signInController actionComplete];
+        self.signInController = nil;
+        if (errorOrNil == nil) {
+            [_signInResponder userSucessfullySignedIn:user];
+        } else {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign in with Google+ failed", @"Sign in with Google+ failed error title")
+                                                            message:[errorOrNil localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
+                                                  otherButtonTitles: nil];
+            [alert show];
+        }
+    }];
+}
+
 @end

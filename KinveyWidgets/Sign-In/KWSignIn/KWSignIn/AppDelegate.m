@@ -23,6 +23,7 @@
 
 #import <KinveyKit/KinveyKit.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 
 #import "KWSignInViewController.h"
 #import "KCSSignInDelegate.h"
@@ -54,6 +55,7 @@
         [FBSDKSettings setAppID:@"<#Facebook App Id#>"];
         [FBSDKSettings setDisplayName:@"<#Facebook Display Name#>"];
         
+        [GIDSignIn sharedInstance].clientID = @"<#Google ClientID#>";
         
         //Create the Sign-In stuff:
         KCSSignInDelegate* signindelegate = [[KCSSignInDelegate alloc] init];
@@ -66,7 +68,7 @@
         
         KWSignInViewController* signInViewController = [[KWSignInViewController alloc] init];
         signInViewController.signInDelegate = signindelegate;
-        signInViewController.socialLogins = @[KWSignInFacebook, KWSignInTwitter, KWSignInLinkedIn];
+        signInViewController.socialLogins = @[KWSignInFacebook, KWSignInTwitter, KWSignInLinkedIn, KWSignInGooglePlus];
         
         //Uncomment to use text instead of an image as the Title
         //view.title = @"Welcome to Kinvey SignIn";
@@ -137,12 +139,24 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
+    BOOL result = NO;
+    
 #warning remove if Not using facebook SDK
     // attempt to extract a token from the url
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                          openURL:url
-                                                sourceApplication:sourceApplication
-                                                       annotation:annotation];
+    if (!result) {
+        result = [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                                openURL:url
+                                                      sourceApplication:sourceApplication
+                                                             annotation:annotation];
+    }
+    
+    if (!result) {
+        result = [[GIDSignIn sharedInstance] handleURL:url
+                                     sourceApplication:sourceApplication
+                                            annotation:annotation];
+    }
+    
+    return result;
 }
 
 -(void)applicationDidBecomeActive:(UIApplication *)application

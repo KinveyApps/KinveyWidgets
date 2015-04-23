@@ -20,6 +20,7 @@
 #import "KCSBlockDefs.h"
 #import "KCSQuery.h"
 #import "KinveyHeaderInfo.h"
+#import "KCSRequestConfiguration.h"
 
 // Forward decl
 @class KCSAuthHandler;
@@ -113,7 +114,26 @@ KCS_DEPRECATED(use [KCSQuery query] instead, 1.26.0)
  @param progressBlock A block that is invoked whenever the store can offer an update on the progress of the operation.
  
  */
-- (void)saveObject: (id)object withCompletionBlock: (KCSCompletionBlock)completionBlock withProgressBlock: (KCSProgressBlock)progressBlock;
+- (void) saveObject:(id)object
+withCompletionBlock:(KCSCompletionBlock)completionBlock
+  withProgressBlock:(KCSProgressBlock)progressBlock;
+
+/*! Add or update an object (or objects) in the store.
+ 
+ This is the basic method to add or update objects in a Kinvey Store.  Specific stores may
+ have specific requirements on objects that are added to the store.  This will result in the
+ completion callback being called informing you of an error.
+ 
+ @param object An object to add/update in the store (if the object is a `NSArray`, all objects will be added/updated)
+ @param requestConfiguration defines how the client requests should be set up by default
+ @param completionBlock A block that gets invoked when the addition/update is "complete" (as defined by the store)
+ @param progressBlock A block that is invoked whenever the store can offer an update on the progress of the operation.
+ 
+ */
+- (void)  saveObject:(id)object
+requestConfiguration:(KCSRequestConfiguration*)requestConfiguration
+ withCompletionBlock:(KCSCompletionBlock)completionBlock
+   withProgressBlock:(KCSProgressBlock)progressBlock;
 
 #pragma mark - Querying/Fetching
 ///---------------------------------------------------------------------------------------
@@ -129,7 +149,24 @@ KCS_DEPRECATED(use [KCSQuery query] instead, 1.26.0)
  @param progressBlock A block that is invoked whenever the store can offer an update on the progress of the operation.
  
 */
-- (void)queryWithQuery: (id)query withCompletionBlock: (KCSCompletionBlock)completionBlock withProgressBlock: (KCSProgressBlock)progressBlock;
+- (void)queryWithQuery:(id)query
+   withCompletionBlock:(KCSCompletionBlock)completionBlock
+     withProgressBlock:(KCSProgressBlock)progressBlock;
+
+/*! Query or fetch an object (or objects) in the store.
+ 
+ This method takes a query object and calls the store to provide an array of objects that satisfies the query.
+ 
+ @param query A query to act on a store.  The store defines the type of queries it accepts, an object of type `[KCSQuery query]` causes all objects to be returned.
+ @param requestConfiguration defines how the client requests should be set up by default
+ @param completionBlock A block that gets invoked when the query/fetch is "complete" (as defined by the store)
+ @param progressBlock A block that is invoked whenever the store can offer an update on the progress of the operation.
+ 
+ */
+- (void)queryWithQuery:(id)query
+  requestConfiguration:(KCSRequestConfiguration*)requestConfiguration
+   withCompletionBlock:(KCSCompletionBlock)completionBlock
+     withProgressBlock:(KCSProgressBlock)progressBlock;
 
 #pragma mark - Removing
 ///---------------------------------------------------------------------------------------
@@ -144,7 +181,23 @@ KCS_DEPRECATED(use [KCSQuery query] instead, 1.26.0)
  @updated 1.24.0 completion block is now a count block instead of an object block
  */
 
-- (void)removeObject: (id)object withCompletionBlock:(KCSCountBlock)completionBlock withProgressBlock: (KCSProgressBlock)progressBlock;
+- (void)removeObject:(id)object
+ withCompletionBlock:(KCSCountBlock)completionBlock
+   withProgressBlock:(KCSProgressBlock)progressBlock;
+
+/*! Remove an object (or objects) from the store.
+ 
+ @param object An object (or query) to remove from the store (if the object is a NSArray or query, matching objects will be removed)
+ @param requestConfiguration defines how the client requests should be set up by default
+ @param completionBlock A block that gets invoked when the remove is "complete" (as defined by the store). Count is the number of items deleted, if any.
+ @param progressBlock A block that is invoked whenever the store can offer an update on the progress of the operation.
+ @updated 1.24.0 completion block is now a count block instead of an object block
+ */
+
+- (void)removeObject:(id)object
+requestConfiguration:(KCSRequestConfiguration*)requestConfiguration
+ withCompletionBlock:(KCSCountBlock)completionBlock
+   withProgressBlock:(KCSProgressBlock)progressBlock;
 
 
 #pragma mark -

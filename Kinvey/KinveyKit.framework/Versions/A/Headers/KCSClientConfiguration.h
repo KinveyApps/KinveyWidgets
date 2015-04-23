@@ -20,6 +20,7 @@
 #import <Foundation/Foundation.h>
 
 #import "KinveyHeaderInfo.h"
+#import "KCSRequestConfiguration.h"
 
 // Keys for options hash
 /** App Key plist key: "KCS_APP_KEY" */
@@ -42,12 +43,12 @@ KCS_CONSTANT KCS_LOG_SINK;
 /** 
  @since 1.24.0
 */
-typedef enum KCSDataProtectionLevel : NSInteger {
+typedef NS_ENUM(NSInteger, KCSDataProtectionLevel) {
     KCSDataNoProtection, //no encryption
     KCSDataComplete, //data is inaccessible when device locked
     KCSDataCompleteUnlessOpen, //data is locked at first, but remains accessible while the file is open
     KCSDataCompleteUntilFirstLogin, //data is locked until the device has been unlocked once after boot
-} KCSDataProtectionLevel;
+};
 
 /** Set this to a KCSDataProtectionLevel combined with data protection entitlements and the appropriate app delegate methods allows your app to lock files managed by the file store, offline caches, and keychain. 
  
@@ -71,6 +72,12 @@ KCS_CONSTANT KCS_KEEP_USER_LOGGED_IN_ON_BAD_CREDENTIALS;
 
 KCS_CONSTANT KCS_SERVICE_HOST;
 
+/** Set to `@YES` for better performance when sending many simultaneous requests.
+ 
+ @since 1.27.0
+ */
+KCS_CONSTANT KCS_ALWAYS_USE_NSURLREQUEST;
+
 
 /** Configuration wrapper for setting up a KCSClient. Configurations are adjustable at compile- or run-time. See the guides at http://devecenter.kinvey.com for how configurations work with app environments.
  
@@ -87,6 +94,11 @@ KCS_CONSTANT KCS_SERVICE_HOST;
  @since 1.20.0
  */
 @property (nonatomic, copy) NSString* appSecret;
+
+/** The request configration
+ @since 1.29.0
+ */
+@property (nonatomic, strong) KCSRequestConfiguration* requestConfiguration;
 
 /** A dictionary of options. 
 
@@ -122,6 +134,8 @@ KCS_CONSTANT KCS_SERVICE_HOST;
 // internal use
 @property (nonatomic, copy) NSString* serviceHostname;
 
+@property (nonatomic, copy) NSString* authHostname;
+
 /** Basic configuration with an app key and secret, no options. Uses the default options.
  
  Usage:
@@ -134,7 +148,8 @@ KCS_CONSTANT KCS_SERVICE_HOST;
  @return a configuration with the default options
  @since 1.20.0
  */
-+ (instancetype) configurationWithAppKey:(NSString*)appKey secret:(NSString*)appSecret;
++ (instancetype) configurationWithAppKey:(NSString*)appKey
+                                  secret:(NSString*)appSecret;
 
 /** Basic configuration with an app key and secret and options.
  
@@ -152,7 +167,31 @@ KCS_CONSTANT KCS_SERVICE_HOST;
  @see options
  @since 1.20.0
  */
-+ (instancetype) configurationWithAppKey:(NSString*)appKey secret:(NSString*)appSecret options:(NSDictionary*)options;
++ (instancetype) configurationWithAppKey:(NSString*)appKey
+                                  secret:(NSString*)appSecret
+                                 options:(NSDictionary*)options;
+
+/** Basic configuration with an app key and secret and options.
+ 
+ Options can either be default overrides or additional configuration such as social network app keys.
+ 
+ Usage:
+ 
+ KCSClientConfiguration* config = [KCSClientConfiguration configurationWithAppKey:@"<#KEY#>" secret:@"<#SECRET#>" options:@{KCS_CONNECTION_TIMEOUT : @60} requestConfiguration:[KCSRequestConfiguration requestConfigurationWithClientAppVersion:@"" andCustomRequestProperties:@{@"lang" : @"fr"}]];
+ [[KCSClient sharedClient] initializeWithConfiguration:config];
+ 
+ @param appKey the App Key for a specific app's environment.
+ @param appSecret the matching App Secret for the environment.
+ @param options a dictionary of optional configuration.
+ @param requestConfiguration defines how the client requests should be set up by default
+ @return a configuration with the specified options
+ @see options
+ @since 1.20.0
+ */
++ (instancetype) configurationWithAppKey:(NSString*)appKey
+                                  secret:(NSString*)appSecret
+                                 options:(NSDictionary*)options
+                    requestConfiguration:(KCSRequestConfiguration*)requestConfiguration;
 
 /** Builds the configuration from the specified plist.
  

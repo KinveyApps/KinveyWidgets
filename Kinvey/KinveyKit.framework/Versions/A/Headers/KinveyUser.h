@@ -29,13 +29,13 @@
 @class KCSUser;
 @class KCSUserResult;
 
-typedef enum KCSUserActionResult : NSInteger {
+typedef NS_ENUM(NSInteger, KCSUserActionResult) {
     KCSUserNoInformation = -1,
     KCSUserCreated = 1,
     KCSUserDeleted = 2,
     KCSUserFound = 3,
     KCSUSerNotFound = 4
-} KCSUserActionResult;
+};
 
 typedef void (^KCSUserCompletionBlock)(KCSUser* user, NSError* errorOrNil, KCSUserActionResult result);
 typedef void (^KCSUserSendEmailBlock)(BOOL emailSent, NSError* errorOrNil);
@@ -43,22 +43,36 @@ typedef void (^KCSUserCheckUsernameBlock)(NSString* username, BOOL usernameAlrea
 
 /** Social Network login providers supported for log-in
  */
-typedef enum  {
+typedef NS_ENUM(NSInteger, KCSUserSocialIdentifyProvider)  {
     /** Facebook */
     KCSSocialIDFacebook,
     /** Twitter */
     KCSSocialIDTwitter,
+    /** Google+ */
+    KCSSocialIDGooglePlus,
     /** LinkedIn */
     KCSSocialIDLinkedIn,
     /** Salesforce */
     KCSSocialIDSalesforce,
+    /** Kinvey Auth */
+    KCSSocialIDKinvey,
     KCSSocialIDOther,
-} KCSUserSocialIdentifyProvider;
+};
 
-/** Access Dictionary key for the token: both Facebook & Twitter */
+/** Username key for KCSMICAuthorizationGrantTypeAuthCodeAPI options. */
+KCS_CONSTANT KCSUsername;
+
+/** Password key for KCSMICAuthorizationGrantTypeAuthCodeAPI options. */
+KCS_CONSTANT KCSPassword;
+
+/** Access Dictionary key for the token: both Facebook, Twitter and Google+ */
 KCS_CONSTANT KCSUserAccessTokenKey;
 /** Access Dictionary key for the token secret: just Twitter */
 KCS_CONSTANT KCSUserAccessTokenSecretKey;
+/** Access Dictionary key for the refresh token: Google+ */
+KCS_CONSTANT KCSUserAccessRefreshTokenKey;
+/** Access Dictionary key for the expiration token: Google+ */
+KCS_CONSTANT KCSUserAccessExpiresInKey;
 
 /** Notification type. This is called when a user is logged in or logged out. `userInfo` and `object` are nil. Query `+[KCSUser activeUser] to get the new value. */
 KCS_CONSTANT KCSActiveUserChangedNotification;
@@ -215,15 +229,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
 /// @name Creating Users
 ///---------------------------------------------------------------------------------------
 
-/*! Create a new Kinvey user and register them with the backend.
- * @param username The username to create, if it already exists on the back-end an error will be returned.
- * @param password The user's password
- * @param delegate The delegate to inform once creation completes
- * @deprecatedIn 1.19.0
-*/
-+ (void)userWithUsername: (NSString *)username password: (NSString *)password withDelegate: (id<KCSUserActionDelegate>)delegate KCS_DEPRECATED(use userWithUsername:password:withCompletionBlock: instead, 1.19.0);
-
-
 /** Create a new Kinvey user and register them with the backend.
  * @param username The username to create, if it already exists on the back-end an error will be returned.
  * @param password The user's password
@@ -276,14 +281,6 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
 /*! Login an existing user, generates an error if the user doesn't exist
  * @param username The username of the user
  * @param password The user's password
- * @param delegate The delegate to inform once the action is complete
- * @deprecatedIn 1.19.0
-*/
-+ (void)loginWithUsername: (NSString *)username password: (NSString *)password withDelegate: (id<KCSUserActionDelegate>)delegate KCS_DEPRECATED([Use loginWithUsername:password:withCompletionBlock: instead, 1.19.0);
-
-/*! Login an existing user, generates an error if the user doesn't exist
- * @param username The username of the user
- * @param password The user's password
  * @param completionBlock The block that is called when the action is complete
  */
 + (void)loginWithUsername: (NSString *)username
@@ -316,6 +313,61 @@ KCS_CONSTANT KCSUserAttributeFacebookId;
  @since 1.9.0
  */
 + (void)loginWithSocialIdentity:(KCSUserSocialIdentifyProvider)provider accessDictionary:(NSDictionary*)accessDictionary withCompletionBlock:(KCSUserCompletionBlock)completionBlock;
+
+#pragma mark - MIC helper methods
+
+/**
+ Opens the default web browser to login a user using MIC.
+ 
+ @param redirectURI The URI that the grant will redirect to on authentication, as set in the console. Note: this must exactly match one of the redirect URIs configured in the console.
+ @since 1.30.0
+ */
++ (void)loginWithAuthorizationCodeLoginPage:(NSString*)redirectURI;
+
+/**
+ Login a user using MIC code API workflow.
+ 
+ @param redirectURI The URI that the grant will redirect to on authentication, as set in the console. Note: this must exactly match one of the redirect URIs configured in the console.
+ @param options Dictionary with options to be used during the authentication process, such as username (KCSUsername) and password (KCSPassword) for KCSMICAuthorizationGrantTypeAuthCodeAPI.
+ @param completionBlock The block to be called when the operation completes or fails
+ @since 1.30.0
+ */
++ (void)loginWithAuthorizationCodeAPI:(NSString*)redirectURI
+                              options:(NSDictionary*)options
+                  withCompletionBlock:(KCSUserCompletionBlock)completionBlock;
+
+/**
+ Check if the URL matches with the redirectURI and contains the authorization code for MIC.
+ 
+ @param redirectURI The URI that the grant will redirect to on authentication, as set in the console. Note: this must exactly match one of the redirect URIs configured in the console.
+ @param url URL to be tested if matches if the redirectURI
+ @return YES if the URL matches with the redirectURI
+ @since 1.30.0
+ */
++ (BOOL)isValidMICRedirectURI:(NSString*)redirectURI
+                       forURL:(NSURL*)url;
+
+/**
+ Parse the URL that contains the authorization code for MIC.
+ 
+ @param redirectURI The URI that the grant will redirect to on authentication, as set in the console. Note: this must exactly match one of the redirect URIs configured in the console.
+ @param url URL to be tested if matches if the redirectURI
+ @param completionBlock The block to be called when the operation completes or fails
+ @since 1.30.0
+ */
++ (void)parseMICRedirectURI:(NSString *)redirectURI
+                     forURL:(NSURL *)url
+        withCompletionBlock:(KCSUserCompletionBlock)completionBlock;
+
+/**
+ Returns the URL to be opened by the WebView or Safari Mobile for KCSMICAuthorizationGrantTypeAuthCodeLoginPage.
+ 
+ @param redirectURI The URI that the grant will redirect to on authentication, as set in the console. Note: this must exactly match one of the redirect URIs configured in the console.
+ @return the URL to be opened by the WebView or Safari Mobile for KCSMICAuthorizationGrantTypeAuthCodeLoginPage.
+ */
++ (NSURL*)URLforLoginWithMICRedirectURI:(NSString*)redirectURI;
+
+#pragma mark -
 
 /*! Removes a user and their data from Kinvey
  * @param completionBlock The block that is called when operation is complete or fails.

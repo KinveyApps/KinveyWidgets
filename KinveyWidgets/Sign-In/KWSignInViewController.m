@@ -42,12 +42,14 @@
 NSString* const KWSignInFacebook = @"facebook";
 NSString* const KWSignInTwitter = @"twitter";
 NSString* const KWSignInLinkedIn = @"linkedIn";
+NSString* const KWSignInGooglePlus = @"google+";
 
 
 @interface KWSignInViewController () <UITextFieldDelegate> {
     KWSocialButton* _twitterButton;
     KWSocialButton* _facebookButton;
     KWSocialButton* _linkedInButton;
+    KWSocialButton* _googlePlusButton;
     UIView* _titleView;
 }
 @property (nonatomic, strong) UIImageView* logoView;
@@ -136,7 +138,7 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
     
     _lineColor = [UIColor colorWithHexString:@"193754"];
     
-    _socialLogins = @[KWSignInTwitter, KWSignInFacebook];
+    _socialLogins = @[KWSignInTwitter, KWSignInFacebook, KWSignInGooglePlus];
     [self setupSocialButtons];
     
     _showsCreateAccountButton = YES;
@@ -275,6 +277,7 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
     [_twitterButton removeFromSuperview], _twitterButton = nil;
     [_facebookButton removeFromSuperview], _facebookButton = nil;
     [_linkedInButton removeFromSuperview], _linkedInButton = nil;
+    [_googlePlusButton removeFromSuperview], _googlePlusButton = nil;
 
     if ([self hasSocialLogin]) {
         _lineView = [[KWLineView alloc] init];
@@ -306,6 +309,15 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
             [self.view addSubview:_linkedInButton];
         } else {
             [_linkedInButton removeFromSuperview], _linkedInButton = nil;
+        }
+        
+        if ([_socialLogins containsObject:KWSignInGooglePlus]) {
+            _googlePlusButton = [KWSocialButton googlePlusButton];
+            [_googlePlusButton setTitle:NSLocalizedString(@"Sign in with Google+", @"Google+ button") forState:UIControlStateNormal];
+            [_googlePlusButton addTarget:self action:@selector(socialSignIn:) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:_googlePlusButton];
+        } else {
+            [_googlePlusButton removeFromSuperview], _googlePlusButton = nil;
         }
         
     }
@@ -374,6 +386,12 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
             loginFrame.origin.x = CGRectGetMaxX(loginFrame) + kLandscapeLoginSocialInterspacing;
             _linkedInButton.frame = loginFrame;
             _linkedInButton.buttonMode = KWSocialButtonModeIconOnly;
+        }
+        
+        if ([_socialLogins containsObject:KWSignInGooglePlus]) {
+            loginFrame.origin.x = CGRectGetMaxX(loginFrame) + kLandscapeLoginSocialInterspacing;
+            _googlePlusButton.frame = loginFrame;
+            _googlePlusButton.buttonMode = KWSocialButtonModeIconOnly;
         }
     }
     
@@ -448,6 +466,12 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
             _linkedInButton.frame = userFrame;
             _linkedInButton.buttonMode = KWSocialButtonModeDefault;
         }
+        
+        if ([_socialLogins containsObject:KWSignInGooglePlus]) {
+            userFrame.origin.y = CGRectGetMaxY(userFrame) +  kWidgetMargin;
+            _googlePlusButton.frame = userFrame;
+            _googlePlusButton.buttonMode = KWSocialButtonModeDefault;
+        }
     }
     
     if (_showsCreateAccountButton) {
@@ -513,6 +537,10 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
             socialFrame.origin.y = CGRectGetMaxY(socialFrame) + kWidgetMargin;
         }
         
+        if ([_socialLogins containsObject:KWSignInGooglePlus]) {
+            _googlePlusButton.frame = socialFrame;
+            socialFrame.origin.y = CGRectGetMaxY(socialFrame) + kWidgetMargin;
+        }
     }
     
     if (_showsCreateAccountButton) {
@@ -583,7 +611,7 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
 
 - (void) socialSignIn:(UIControl*)sender
 {
-    if (_signInDelegate != nil && [_signInDelegate respondsToSelector:@selector(doSoicalSignIn:provider:)]) {
+    if (_signInDelegate != nil && [_signInDelegate respondsToSelector:@selector(doSocialSignIn:provider:)]) {
         
         if (_showsActivityIndicator) {
             [self enableControls:NO];
@@ -597,8 +625,10 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
             socialType = KWSignInTwitter;
         } else if (sender == _linkedInButton) {
             socialType = KWSignInLinkedIn;
+        } else if (sender == _googlePlusButton) {
+            socialType = KWSignInGooglePlus;
         }
-        [_signInDelegate doSoicalSignIn:self provider:socialType];
+        [_signInDelegate doSocialSignIn:self provider:socialType];
     }
 }
 
@@ -608,6 +638,7 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
     [(MKGradientButton*)_facebookButton stopSpinner];
     [(MKGradientButton*)_twitterButton stopSpinner];
     [(MKGradientButton*)_linkedInButton stopSpinner];
+    [(MKGradientButton*)_googlePlusButton stopSpinner];
     
     [self enableControls:YES];
 }
@@ -670,4 +701,5 @@ NSString* const KWSignInLinkedIn = @"linkedIn";
     //myViewController.signInDelegate = [(KWSigInAppDelegate*)UIApplication sharedApplication].signInDelegate;
     return myViewController;
 }
+
 @end
